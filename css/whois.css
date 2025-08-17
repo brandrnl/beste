@@ -1,6 +1,6 @@
 .congrats-message {
     position: relative;
-    padding-left: 70px; /* Zorg voor ruimte voor het absolute icoon */
+    padding-left: 70px;
 }
 
 .icon-vrij {
@@ -13,146 +13,115 @@
 }
 
 .congrats-message span {
-    font-weight: normal; /* Standaard tekstgewicht */
+    font-weight: normal;
 }
 
 .congrats-message strong {
-  font-weight: bold;
-  color: #f33d53;
+    font-weight: bold;
+    color: #f33d53;
 }
 
-/* Desktop en grotere schermen */
-.w_result table {
-    width: 100%;
-    border-collapse: collapse;
-}
+/* Desktop - NIET AANRAKEN */
+@media only screen and (min-width: 701px) {
+    .w_result table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-.w_result table tr {
-    display: grid;
-    grid-template-columns: 1.5fr 0fr 1fr 0.5fr 0.5fr;
-    align-items: center;
-    padding: 15px;
-    background-color: #ffffff;
-    margin-bottom: 15px;
-    width: 100%;
-}
-
-.w_result table tr td:first-child {
-    font-size: 21px;
-    text-align: left;
-    color: #21292c;
-}
-
-.w_result table tr td:nth-child(2) {
-    font-size: 16px;
-    text-transform: capitalize;
-    text-align: center;
-    font-weight: 600;
-}
-
-.w_result table tr td:nth-child(3) {
-    font-size: 18px;
-}
-
-.w_result table tr td:nth-child(5) {
-    font-size: 15px;
-    color: #788286;
-}
-
-/* Responsive weergave voor kleinere schermen */
-@media only screen and (max-width: 700px) {
     .w_result table tr {
-        grid-template-columns: 4fr 1.2fr 1fr 0fr 0.9fr; /* Zet alles onder elkaar op kleine schermen */
-        padding: 5px; /* Verklein de padding */
-		font-size:15px;
-    }
-    
-    .w_result table tr td {
-        margin-bottom: 5px; /* Verklein de marges tussen de rijen */
-        width: 100%;
-        text-align: left; /* Maak alles links uitgelijnd op mobiele apparaten */
-
-    }
-
-    .w_result table tr td:nth-child(4) {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: 1.5fr 0fr 1fr 0.5fr 0.5fr;
+        align-items: center;
+        padding: 15px;
+        background-color: #ffffff;
+        margin-bottom: 15px;
         width: 100%;
     }
 
-    .w_result table tr td:last-child a {
-        width: 100%;
-        display: block;
+    .w_result table tr td:first-child {
+        font-size: 21px;
+        text-align: left;
+        color: #21292c;
+    }
+
+    .w_result table tr td:nth-child(2) {
+        font-size: 16px;
+        text-transform: capitalize;
         text-align: center;
+        font-weight: 600;
     }
 
-    /* Maak het icoon kleiner op mobiele apparaten */
-    .icon-vrij {
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        left: -20px; /* Zorg ervoor dat het icoon goed gepositioneerd blijft */
-        top: 50%;
-        transform: translateY(-50%);
+    .w_result table tr td:nth-child(3) {
+        font-size: 18px;
     }
 
-    /* Zorg ervoor dat er genoeg ruimte is voor het icoon */
-    .congrats-message {
-        padding-left: 30px; /* Pas de padding aan voor mobiel */
-        margin-bottom: 5px; /* Verklein de marge onder de congrats-message */
-
-    }
-    
-    /* Maak de congrats tekst en domeinnaam goed zichtbaar */
-    .congrats-message span {
-        font-weight: normal; /* Normale tekstgewicht voor "Gefeliciteerd" en "is nog beschikbaar!" */
-    }
-
-    .congrats-message strong {
-        font-weight: bold; /* Alleen de domeinnaam vetgedrukt */
-    }
-
-    /* Verklein de hoogte van de prijsweergave en andere tekst */
-    .w_result table tr td:nth-child(2), 
-    .w_result table tr td:nth-child(3), 
     .w_result table tr td:nth-child(5) {
-        font-size: 13px; /* Maak de tekst kleiner op mobiel */
+        font-size: 15px;
+        color: #788286;
     }
 
-    /* Verklein de knop "Bestellen" */
-    .w_result table tr td:last-child a {
-        padding: 8px 10px; /* Maak de knop compacter */
-        font-size: 13px;
+    .w_result table td.domain_td_checked_available {
+        color: green;
+        background: #cafce0;
+        padding: 5px 10px 5px 10px;
+        width: 40px !important;
+    }
+
+    .w_result table td.domain_td_checked_unavailable {
+        color: #f33d53;
+        background-color: #f33d532b;
+        padding: 5px 10px 5px 10px;
+        width: 42px;
     }
 }
-
 
 /***************************************************
                  Header and Footer
 ***************************************************/
-/** Container **/
-.w_form_container{position:relative; display:block; width:100%; max-width:700px; margin:0 auto; font-size:14px; line-height:22px;}
-.w_form_container > *{font-family:Arial;}
+.w_form_container {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.w_form_container > * {
+    font-family: Arial;
+}
 
 /***************************************************
                 WHOIS form - General
 ***************************************************/
-/** General **/
-.w_form .align_right{text-align:right;}
-.w_form .footer_excl_incl_vat { color:#666; }
-
-/** Hyperlinks **/
-.w_form a, .w_result a{color:#2084db; text-decoration:underline; cursor:pointer;}
-.w_form a:hover, .w_result a:hover{text-decoration:none;}
-
-/** Error messages **/
-.w_result .domain_error {
-  border-radius: 5px;
-  margin-bottom: 10px;
-  padding: 7px 21px 7px 7px;
-  background-color: #f33d530f;
-  line-height: 18px;
+.w_form .align_right {
+    text-align: right;
 }
+
+.w_form .footer_excl_incl_vat {
+    color: #666;
+}
+
+.w_form a, .w_result a {
+    color: #2084db;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.w_form a:hover, .w_result a:hover {
+    text-decoration: none;
+}
+
+/* Error messages */
+.w_result .domain_error {
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 7px 21px 7px 7px;
+    background-color: #f33d530f;
+    line-height: 18px;
+}
+
 .w_result .domain_warning {
     border-radius: 5px;
     border: 1px solid #dad28d;
@@ -162,30 +131,205 @@
     line-height: 18px;
 }
 
-/** Navigation buttons **/
+/* Navigation buttons */
 .w_result .goto_orderform {
     float: right;
     display: block;
 }
 
-/** Form fields **/
-.w_form form{display:inline;}
-.w_form input[type=text]{padding:5px; width:250px; border:1px solid #CCCCCC; border-radius:3px; font-size: 15px;}
-.w_form select{width:250px;}
-.w_form textarea.comment{width:100%; height:125px; resize:none; border:1px solid #CCCCCC; border-radius:3px;}
-.w_form input[type="text"]{width:300px;}
+/* Form fields */
+.w_form form {
+    display: inline;
+}
 
-/** Results **/
-.w_result table{width:100%;}
-.w_result table th{padding:0 0 10px 5px; text-align:left; font-weight:bold; border:0px;}
-.w_result table td{padding:13px 0 13px 5px; border:0px; vertical-align:top;}
-.w_result table td.domain_td_checked_available{color:green;}
-.w_result table td.domain_td_checked_unavailable{color:red;}
-.w_result table td.domain_td_order{ white-space:nowrap;}
+.w_form input[type=text] {
+    padding: 5px;
+    width: 250px;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    font-size: 15px;
+}
+
+.w_form select {
+    width: 250px;
+}
+
+.w_form textarea.comment {
+    width: 100%;
+    height: 125px;
+    resize: none;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+}
+
+.w_form input[type="text"] {
+    width: 300px;
+}
+
+/* Results */
+.w_result table {
+    width: 100%;
+}
+
+.w_result table th {
+    padding: 0 0 10px 5px;
+    text-align: left;
+    font-weight: bold;
+    border: 0px;
+}
+
+.w_result table td {
+    padding: 13px 0 13px 5px;
+    border: 0px;
+    vertical-align: top;
+}
+
+.w_result table td.domain_td_order {
+    white-space: nowrap;
+}
+
+.w_result a {
+    color: #fff !important;
+    text-decoration: none !important;
+    cursor: pointer;
+    background-color: #21292C;
+    padding: 11px;
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.w_result a:hover {
+    color: #fff !important;
+    background-color: #f33d53 !important;
+}
 
 /***************************************************
-              Responsive / mobile
+              Responsive / Mobile ALLEEN
 ***************************************************/
 @media only screen and (max-width: 700px) {
-    .w_result table th:last-child { width: auto;}
+    
+    /* Form adjustments */
+    .w_form input[type=text] {
+        width: calc(65% - 20px) !important;
+        padding: 10px !important;
+        font-size: 14px !important;
+    }
+    
+    .w_form .wf_form_submit {
+        width: 30% !important;
+        padding: 10px !important;
+        font-size: 14px !important;
+    }
+    
+    /* Verberg de hele tabel structuur */
+    .w_result table {
+        display: block !important;
+        width: 100% !important;
+    }
+    
+    .w_result table tbody {
+        display: block !important;
+    }
+    
+    /* Maak van elke TR een kaart */
+    .w_result table tr {
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
+        padding: 15px !important;
+        margin-bottom: 15px !important;
+        background-color: #ffffff !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        position: relative !important;
+        width: 100% !important;
+    }
+    
+    /* Verberg headers */
+    .w_result table th {
+        display: none !important;
+    }
+    
+    /* Reset ALLE td styles */
+    .w_result table td {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        text-align: left !important;
+        border: none !important;
+        background: none !important;
+        position: static !important;
+    }
+    
+    /* Domain naam (1e td) */
+    .w_result table td:nth-child(1) {
+        order: 1 !important;
+        font-size: 18px !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 10px !important;
+        border-bottom: 1px solid #eee !important;
+        color: #21292c !important;
+    }
+    
+    /* Status (2e td) */
+    .w_result table td:nth-child(2) {
+        order: 2 !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .w_result table td.domain_td_checked_available,
+    .w_result table td.domain_td_checked_unavailable,
+    .w_result table td.domain_td_unchecked {
+        display: inline-block !important;
+        padding: 4px 0px !important;
+        border-radius: 3px !important;
+        font-size: 13px !important;
+        width: auto !important;
+    }
+    
+    /* Prijs (3e td) */
+    .w_result table td:nth-child(3) {
+        order: 3 !important;
+        font-size: 16px !important;
+        margin-bottom: 10px !important;
+        color: #333 !important;
+    }
+    
+    /* Verberg spacer (4e td) */
+    .w_result table td:nth-child(4) {
+        display: none !important;
+    }
+    
+    /* Actie knop (5e td) - absolute positioning */
+    .w_result table td:nth-child(5) {
+        position: absolute !important;
+        top: 50% !important;  /* Verander van 15px naar 50% */
+        transform: translateY(-50%) !important;  /* Centreer verticaal */
+        right: 15px !important;
+        order: 5 !important;
+        width: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .w_result a.order_link,
+    .w_result a.remove_link {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+    }
+    
+    /* Goto orderform button */
+    .w_result .goto_orderform {
+        float: none !important;
+        text-align: center !important;
+        display: block !important;
+        padding: 10px !important;
+        background-color: #f33d53 !important;
+        color: white !important;
+        text-decoration: none !important;
+        border-radius: 3px !important;
+        margin-bottom: 15px !important;
+    }
 }
