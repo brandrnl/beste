@@ -32,15 +32,19 @@ if(!isset($hide_domain_form) || $hide_domain_form !== true)
 			<?php
 			foreach($tlds_popular as $tld_info)
 			{
-			$full_domain = $sld . '.<span style="font-size:21px;font-weight:600;color:#f33d53;">' . $tld_info->TLD . '</span>';
-
 				?>
 				<tr id="domain_tr_<?php echo str_replace('.','_',$tld_info->TLD); ?>" class="domain_tr">
-					<td><?php echo $full_domain; ?></td>
-					<td class="domain_td_unchecked"><img src="<?php echo ORDERFORM_URL; ?>images/loading.gif" alt="..." /></td>
-					<td class="align_right"><?php echo w_money((SHOW_VAT_INCLUDED) ? $tld_info->PriceIncl : $tld_info->PriceExcl); ?><?php echo w_period(1, $tld_info->PricePeriod, 'per'); ?></td>
+					<td>
+						<span class="domain-sld"><?php echo $sld; ?></span><span class="domain-tld">.<?php echo $tld_info->TLD; ?></span>
+					</td>
+					<td class="domain_td_unchecked">
+						<img src="<?php echo ORDERFORM_URL; ?>images/loading.gif" alt="..." />
+					</td>
+					<td class="align_right">
+						<?php echo w_money((SHOW_VAT_INCLUDED) ? $tld_info->PriceIncl : $tld_info->PriceExcl); ?>
+						<?php echo w_period(1, $tld_info->PricePeriod, 'per'); ?>
+					</td>
 					<td>&nbsp;</td>
-				
 					<td class="domain_td_order">&nbsp;</td>
 				</tr>
 				<?php
@@ -55,14 +59,19 @@ if(!isset($hide_domain_form) || $hide_domain_form !== true)
 				<?php
 				foreach($tlds_other as $tld_info)
 				{
-					$full_domain = $sld.'.<span style="font-size:21px;font-weight:600;color:#f33d53;">'.$tld_info->TLD. '</span>';
 					?>
 					<tr id="domain_tr_<?php echo str_replace('.','_',$tld_info->TLD); ?>" class="domain_tr">
-						<td><?php echo $full_domain; ?></td>
-						<td class="domain_td_unchecked"><img src="<?php echo ORDERFORM_URL; ?>images/loading.gif" alt="..." /></td>
-						<td class="align_right"><?php echo w_money((SHOW_VAT_INCLUDED) ? $tld_info->PriceIncl : $tld_info->PriceExcl); ?><?php echo w_period(1, $tld_info->PricePeriod, 'per'); ?></td>
+						<td>
+							<span class="domain-sld"><?php echo $sld; ?></span><span class="domain-tld">.<?php echo $tld_info->TLD; ?></span>
+						</td>
+						<td class="domain_td_unchecked">
+							<img src="<?php echo ORDERFORM_URL; ?>images/loading.gif" alt="..." />
+						</td>
+						<td class="align_right">
+							<?php echo w_money((SHOW_VAT_INCLUDED) ? $tld_info->PriceIncl : $tld_info->PriceExcl); ?>
+							<?php echo w_period(1, $tld_info->PricePeriod, 'per'); ?>
+						</td>
 						<td>&nbsp;</td>
-						
 						<td class="domain_td_order">&nbsp;</td>
 					</tr>
 					<?php
@@ -97,7 +106,5 @@ if(!isset($hide_domain_form) || $hide_domain_form !== true)
 		</form>
 		<script type="text/javascript">w_check_next_domain();</script>
 	
-
-
 	<?php } ?>
 </div>
