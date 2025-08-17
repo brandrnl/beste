@@ -369,7 +369,7 @@ body {
    .o_form table td.domain_td_order .remove_link{display:inline-block; width:14px;height:14px;margin-top:5px; text-indent: 100%;white-space: nowrap; overflow: hidden; background: url('../images/delete.png') no-repeat 35% 95% !important;}
     .o_form table td.domain_td_order .remove_link img {display:none;}
 	.o_form table tr.domain_td_checked_available td{color:#0E5704;}
-	.o_form table tr.domain_td_checked_unavailable td{color:#c02e19;}
+	.o_form table tr.domain_td_checked_unavailable td{color:#f33d53;}
 	.o_form table tr.domain_td_checked_unavailable td{}
 	.o_form .domain_table .ico-del{left:initial; width:100%; text-align:right; right:10px;}
     .o_form .domain_table table th:nth-child(2),
@@ -395,7 +395,7 @@ body {
 	.w_result table td.domain_td_order{font-size:14px;}
 	.w_result table td.domain_td_order .order_link{background: none; text-indent: 0; overflow: auto; height: auto; width: auto; margin-top: 0; display: block;}
 	.w_result table tr.domain_td_checked_available td span{color: green;}
-	.w_result table tr.domain_td_checked_unavailable td span{color: red;}
+	.w_result table tr.domain_td_checked_unavailable td span{color: #f33d53;}
 	.w_result table td.domain_td_order .remove_link{background-position: 5px 7px;}
 
 	.w_form form input.wf_form_submit{width: 111px!important; padding: 10px!important; margin-top: 5px!important;}
@@ -450,4 +450,7 @@ body {
 	.mobile_show_text{display:none; width:0; height:0; opacity:0;}
 
 }
+
+
+
 
