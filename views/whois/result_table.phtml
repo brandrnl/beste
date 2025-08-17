@@ -1,0 +1,103 @@
+<?php
+// Should we load domain form above whois results?
+if(!isset($hide_domain_form) || $hide_domain_form !== true)
+{
+	$this->element('domain_form.phtml');
+	echo "<br /><br />";
+}
+?>
+
+<div class="w_result">
+	<?php 
+	if(isset($sld))
+	{ 
+		// Should we give a warning
+		if(isset($domain_warning) && $domain_warning)
+		{
+			?>
+			<div class="domain_warning">
+				<?php echo $domain_warning; ?>
+			</div>
+			<br />
+			<?php
+		}
+		?>
+		
+		<a href="<?php echo LINK_TO_ORDERFORM; ?>" class="goto_orderform" <?php if(empty($domains)){ echo "style=\"display:none;\""; } ?>><?php echo __('to orderform'); ?> (<span class="cart_count"><?php echo count($domains); ?></span>)</a><br clear="both" />
+		
+		<form method="post" action="<?php echo ($this->getType() == 'extern') ? ORDERFORM_URL : ORDERFORM_URL_SAME_DOMAIN; ?>whois.php">
+		<table cellspacing="0" cellpadding="0">
+			
+			<tbody class="domain_tbody_popular">
+			<?php
+			foreach($tlds_popular as $tld_info)
+			{
+			$full_domain = $sld . '.<span style="font-size:21px;font-weight:600;color:#f33d53;">' . $tld_info->TLD . '</span>';
+
+				?>
+				<tr id="domain_tr_<?php echo str_replace('.','_',$tld_info->TLD); ?>" class="domain_tr">
+					<td><?php echo $full_domain; ?></td>
+					<td class="domain_td_unchecked"><img src="<?php echo ORDERFORM_URL; ?>images/loading.gif" alt="..." /></td>
+					<td class="align_right"><?php echo w_money((SHOW_VAT_INCLUDED) ? $tld_info->PriceIncl : $tld_info->PriceExcl); ?><?php echo w_period(1, $tld_info->PricePeriod, 'per'); ?></td>
+					<td>&nbsp;</td>
+				
+					<td class="domain_td_order">&nbsp;</td>
+				</tr>
+				<?php
+			}
+			?>
+			</tbody>
+			<?php 
+			if(WHOIS_SHOWTLDS != 'popular' || empty($tlds_popular))
+			{
+				?>
+				<tbody class="domain_tbody_other" <?php if(WHOIS_SHOWTLDS == 'toggle'){ echo "style=\"display:none;\""; } ?>>
+				<?php
+				foreach($tlds_other as $tld_info)
+				{
+					$full_domain = $sld.'.<span style="font-size:21px;font-weight:600;color:#f33d53;">'.$tld_info->TLD. '</span>';
+					?>
+					<tr id="domain_tr_<?php echo str_replace('.','_',$tld_info->TLD); ?>" class="domain_tr">
+						<td><?php echo $full_domain; ?></td>
+						<td class="domain_td_unchecked"><img src="<?php echo ORDERFORM_URL; ?>images/loading.gif" alt="..." /></td>
+						<td class="align_right"><?php echo w_money((SHOW_VAT_INCLUDED) ? $tld_info->PriceIncl : $tld_info->PriceExcl); ?><?php echo w_period(1, $tld_info->PricePeriod, 'per'); ?></td>
+						<td>&nbsp;</td>
+						
+						<td class="domain_td_order">&nbsp;</td>
+					</tr>
+					<?php
+				}
+				?>
+				</tbody>
+				<?php
+			}
+			
+			if(empty($tlds_popular) && empty($tlds_other))
+			{
+				?>
+				<tr>
+					<td colspan="6"><?php echo __('no products in domain productgroup'); ?></td>
+				</tr>
+				<?php
+			}
+			
+			?>
+		</table>
+		
+		<?php 
+		if(!empty($tlds_other) && WHOIS_SHOWTLDS == 'toggle')
+		{ 
+			?>
+			<br />
+			<a onclick="w_show_other_tlds();" class="show_other_tlds"><?php echo __('show more tlds'); ?></a>
+			<?php 
+		} 
+		?>
+		<p class="footer_excl_incl_vat"><?php echo (SHOW_VAT_INCLUDED) ? __('footer prices are including tax') : ((count($array_taxpercentages) === 0 && count($array_total_taxpercentages) === 0) ? '&nbsp;' : __('footer prices are excluding tax')); ?></p>
+		</form>
+		<script type="text/javascript">w_check_next_domain();</script>
+	
+
+
+	<?php } ?>
+</div>

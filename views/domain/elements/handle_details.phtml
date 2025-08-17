@@ -1,0 +1,142 @@
+<?php
+if($handle->CompanyName)
+{
+	?>
+	<label><?php echo __('companyname'); ?>:</label>
+	<span><?php echo htmlspecialchars($handle->CompanyName); ?></span>
+	<br />
+
+	<label><?php echo __('companynumber'); ?>:</label>
+	<span><?php echo htmlspecialchars($handle->CompanyNumber); ?></span>
+	<br/>
+
+	<label><?php echo __('taxnumber'); ?>:</label>
+	<span><?php echo htmlspecialchars($handle->TaxNumber); ?></span>
+	<br/>
+	<br/>
+	<?php
+}
+?>
+
+<label><?php echo __('contact person'); ?>:</label>
+<span><?php echo \Setting_Model::getGenderTranslation($handle->Sex) . ' ' . htmlspecialchars($handle->Initials . ' ' . $handle->SurName); ?></span>
+<br />
+
+<label><?php echo __('address'); ?>:</label>
+<span><?php echo htmlspecialchars($handle->Address); ?></span>
+<br />
+<?php
+if(IS_INTERNATIONAL && $handle->Address2)
+{
+	?>
+	<label>&nbsp;</label>
+	<span><?php echo htmlspecialchars($handle->Address2); ?></span>
+	<br />
+	<?php
+}
+?>
+<label><?php echo __('zipcode and city'); ?>:</label>
+<span><?php echo htmlspecialchars($handle->ZipCode); ?> &nbsp;<?php echo htmlspecialchars($handle->City); ?></span>
+<br />
+
+<?php
+if(IS_INTERNATIONAL && $handle->State)
+{
+	?>
+	<label><?php echo __('state'); ?></label>
+	<span><?php if(isset($array_states[$handle->Country]) && isset($array_states[$handle->Country][$handle->State])){ echo $array_states[$handle->Country][$handle->State]; }else{ echo htmlspecialchars($handle->State); } ?></span>
+	<br />
+	<?php
+}
+?>
+
+<label><?php echo __('country'); ?>:</label>
+<span><?php echo $array_country[$handle->Country]; ?></span>
+<br />
+
+<br />
+
+<label><?php echo __('phonenumber'); ?>:</label>
+<span><?php echo htmlspecialchars($handle->PhoneNumber); ?></span>
+<br />
+
+<label><?php echo __('emailaddress'); ?>:</label>
+<span><?php echo htmlspecialchars($handle->EmailAddress); ?></span>
+<br />
+
+<br />
+
+<?php
+// Do we have custom client fields to show?
+if(!empty($handle_custom_fields))
+{
+	$custom_client_fields_values = CustomClientFields_Model::getCustomValues('handle', $handle->id);
+	foreach($handle_custom_fields as $field)
+	{
+		$custom_value = (isset($custom_client_fields_values[$field['FieldCode']])) ? $custom_client_fields_values[$field['FieldCode']] : null;
+		$label_name = (__('label custom client fields - '.$field['FieldCode'])) ? __('label custom client fields - '.$field['FieldCode']) : htmlspecialchars($field['LabelTitle']);
+
+		switch($field['LabelType'])
+		{
+			case 'select':
+				$options = (array) json_decode($field['LabelOptions']);
+				$selected = ($custom_value && array_key_exists('opt-'.$custom_value, $options)) ? $custom_value : $field['LabelDefault'];
+
+				$custom_value = htmlspecialchars($options['opt-'.$selected]);
+			break;
+			case 'checkbox':
+				$options = (array) json_decode($field['LabelOptions']);
+
+				if(is_null($custom_value))
+				{
+					$checked = (array) json_decode($field['LabelDefault']);
+				}
+				else
+				{
+					$checked = (is_array($custom_value)) ? $custom_value : array();
+				}
+
+				$custom_value = array();
+				foreach($options as $k=>$v)
+				{
+					if(in_array(substr($k, 4),$checked))
+					{
+						$custom_value[] = $v;
+					}
+				}
+
+				$custom_value = htmlspecialchars(implode(', ', $custom_value));
+			break;
+			case 'radio':
+				$options = (array) json_decode($field['LabelOptions']);
+				$checked = ($custom_value && array_key_exists('opt-'.$custom_value, $options)) ? $custom_value : $field['LabelDefault'];
+
+				foreach($options as $k=>$v)
+				{
+					if(substr($k, 4) == $checked)
+					{
+						$custom_value = htmlspecialchars($v);
+						break;
+					}
+				}
+			break;
+			case 'date':
+				$custom_value = ($custom_value) ? rewrite_date_db2site($custom_value) : '';
+			break;
+			case 'textarea':
+				$custom_value = ($custom_value) ? nl2br(htmlspecialchars($custom_value)) : '';
+			break;
+			default:
+				$custom_value = htmlspecialchars($custom_value);
+			break;
+		}
+		?>
+		<label><?php echo $label_name; ?>:</label>
+		<span><?php echo $custom_value; ?></span>
+		<br />
+		<?php
+	}
+}
+?>
+
+<br />

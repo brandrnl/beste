@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        // Iterate through each row with class .domain_tr
+        jQuery('.domain_tr').each(function() {
+            // Check if the domain is .nl
+            if (jQuery(this).attr('id').includes('_nl')) {
+                // Check the result column (second td element)
+                var resultCell = jQuery(this).find('td:nth-child(2)');
+                // If the result is "vrij", change the row color to green
+                if (resultCell.text().trim().toLowerCase() === 'vrij') {
+                    jQuery(this).css('color', 'green');
+                }
+            }
+        });
+    });
+</script>
+
+
+
+	<title><?php echo __('whois page title'); ?></title>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+
+<div class="w_form_container">
+
+	<h2><?php echo __('check domain'); ?></h2>

@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="w_form">
+    <form method="post" action="<?php echo ($this->getType() == 'extern') ? ORDERFORM_URL : ORDERFORM_URL_SAME_DOMAIN; ?>whois.php?cart=<?php echo ORDERFORM_ID; ?>">
+        <input type="hidden" name="result" value="<?php echo $this->getType(); ?>"/>
+        <?php if($this->getType() != 'inline'){ ?><input type="hidden" name="newpage" value="<?php echo (RESULT_URL) ? RESULT_URL : (($this->getType() == 'extern') ? ORDERFORM_URL.'whois.php' : ORDERFORM_URL_SAME_DOMAIN.'whois.php'); ?>"/><?php } ?>
+        <input type="text" name="whois_domain" placeholder="Voer uw domeinnaam in"/>
+        <button class="wf_form_submit" type="submit">
+            <i class="fa fa-search" style="margin-right: 5px;"></i>
+            <?php echo __('whois_btn'); ?>
+        </button>
+    </form>
+</div>

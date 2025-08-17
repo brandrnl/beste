@@ -1,0 +1,57 @@
+<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></head>
+
+<style>
+    .best-choice-wrapper {
+        position: absolute;
+        display: inline-block; /* Zorgt ervoor dat het label correct uitlijnt */
+    }
+
+   .best-choice-label {
+  position: absolute;
+bottom: -190px;
+  left: 150px;
+  background-color: #00b554 !important;
+  color: white;
+  font-weight: bold;
+  padding: 3px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+	@media only screen and (max-width: 600px) {
+   .best-choice-label {
+  position: absolute;
+bottom: -190px;
+  left: 240px;
+  background-color: #00b554 !important;
+  color: white;
+  font-weight: bold;
+  padding: 5px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+}
+</style>
+<div class="hosting_new_packages">
+	<div class="package_container grid<?php echo PACKAGES_GRID; ?>">
+	
+		<?php
+		global $package_descriptions;
+		$div_counter = 0;
+		foreach($package_descriptions as $product_id => $description){ if(isset($hosting_products[$product_id]->ProductCode)){
+			$div_counter++;
+			?>
+			<div class="package_box <?php if($div_counter%PACKAGES_GRID === 0){ echo "last_col "; } ?><?php if(isset($hosting['ProductCode']) && $hosting['ProductCode'] == $hosting_products[$product_id]->ProductCode){ echo "active"; } ?>" style="word-break: break-all;">
+				<input name="Hosting" type="radio" value="<?php echo $hosting_products[$product_id]->ProductCode; ?>" <?php if(isset($hosting['ProductCode']) && $hosting['ProductCode'] == $hosting_products[$product_id]->ProductCode){ echo "checked=\"checked\""; } ?>/> <strong><?php echo $hosting_products[$product_id]->ProductName; ?></strong><br />
+				<?php if($description){ echo $description; }else{ echo nl2br($hosting_products[$product_id]->ProductKeyPhrase); } ?>
+				
+				<?php echo show_amount_span($hosting_products[$product_id]);  ?>
+			</div>
+			<?php
+            if($div_counter%PACKAGES_GRID === 0 || count($package_descriptions) == $div_counter)
+            {
+                echo '<br clear="both" />';
+            }
+		}}
+		?>
+	</div>
+</div>

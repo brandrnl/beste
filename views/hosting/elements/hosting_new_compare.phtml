@@ -1,0 +1,85 @@
+
+<div class="hosting_new_compare mobile_hide_text">
+	<?php
+	global $compare_matrix;
+	?>
+	
+	<table class="hosting_table" cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="145">&nbsp;</td>
+			<?php 
+			foreach($compare_matrix as $product_id => $rows){ if(is_numeric($product_id) && isset($hosting_products[$product_id]->ProductCode)){
+				?><td><h3 class="nomargin"><?php echo $hosting_products[$product_id]->ProductName; ?></h3><?php echo show_amount_span($hosting_products[$product_id]);  ?></td><?php 
+			} }
+			?>
+		</tr>
+		<?php	
+		for($row_count = 0; $row_count < count($compare_matrix['legend']); $row_count++){
+			?><tr><?php
+			foreach($compare_matrix as $product_id => $rows){
+				
+				if($product_id == 'legend')
+				{
+					?><td><strong><?php echo $rows[$row_count]; ?></strong></td><?php
+				}
+				elseif(isset($hosting_products[$product_id]->ProductCode))
+				{
+					?><td><?php echo ($rows[$row_count]) ? $rows[$row_count] : '&nbsp;'; ?></td><?php
+				}
+				
+			}
+			?></tr><?php
+		}
+		?>
+		<tr>
+			<td class="noborder">&nbsp;</td>
+			<?php 
+			foreach($compare_matrix as $product_id => $rows){ if(is_numeric($product_id) && isset($hosting_products[$product_id]->ProductCode)){
+				?><td class="noborder"><input name="Hosting" type="radio" value="<?php echo $hosting_products[$product_id]->ProductCode; ?>" <?php if(isset($hosting['ProductCode']) && $hosting['ProductCode'] == $hosting_products[$product_id]->ProductCode){ echo "checked=\"checked\""; } ?>/></td><?php 
+			} }
+			?>
+		</tr>
+	</table>
+</div>
+
+<div class="hosting_new_packages mobile_show_text">
+	<div class="package_container grid1">
+		<?php foreach($compare_matrix as $product_id => $rows){ if(is_numeric($product_id) && isset($hosting_products[$product_id]->ProductCode)){ ?>
+		<div class="package_box <?php if(isset($hosting['ProductCode']) && $hosting['ProductCode'] == $hosting_products[$product_id]->ProductCode){ echo "active"; } ?>" style="word-break: break-all;">
+			<h3 class="nomargin">
+				<input name="HostingResponsive" type="radio" value="<?php echo $hosting_products[$product_id]->ProductCode; ?>" <?php if(isset($hosting['ProductCode']) && $hosting['ProductCode'] == $hosting_products[$product_id]->ProductCode){ echo "checked=\"checked\""; } ?>/>
+				<?php echo $hosting_products[$product_id]->ProductName; ?>
+			</h3>
+			
+			<div class="details">
+			<?php foreach($compare_matrix["legend"] AS $k=>$LegendItem){ ?>
+			<strong><?php echo $LegendItem; ?></strong>
+			<?php echo $compare_matrix[$product_id][$k]; ?><br />
+			<?php } ?>
+			<?php echo show_amount_span($hosting_products[$product_id]);  ?>
+			</div>
+		</div>
+		<?php } } ?>
+	</div>
+</div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+
+		// We need some help for responsive view, because radio buttons can't have the same name.
+		jQuery('input[name="Hosting"]').click(function(){
+			jQuery('input[name="HostingResponsive"][value="' + jQuery('input[name="Hosting"]:checked').val() + '"]').prop('checked', 'checked');
+
+			// Remove all active class
+			jQuery('.package_box').removeClass('active');
+
+			// Check this one
+			jQuery('input[name="HostingResponsive"][value="' + jQuery('input[name="Hosting"]:checked').val() + '"]').parents('.package_box').addClass('active');
+		});
+
+		jQuery('input[name="HostingResponsive"]').click(function(){
+			jQuery('input[name="Hosting"][value="' + jQuery('input[name="HostingResponsive"]:checked').val() + '"]').prop('checked', 'checked');
+		});
+
+	});
+</script>

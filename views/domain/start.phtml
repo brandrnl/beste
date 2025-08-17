@@ -1,0 +1,25 @@
+<div class="o_form">
+
+	<br />
+
+	<?php
+	$this->set('progress_step','start');
+	$this->element('progress.phtml');
+	?>
+	
+	<?php
+	$this->element('errors.phtml');
+	?>
+	
+	<h2><?php echo __('choose your domain'); ?></h2>
+	
+	<br />
+
+	<a href="?cart=<?php echo ORDERFORM_ID; ?>" class="button_submit goto_orderform" <?php if(empty($domains)){ echo "style=\"display:none;\""; } ?>><?php echo __('to shopping cart'); ?> (<span class="cart_count"><?php echo count($domains); ?></span>)</a>
+	
+	<script type="text/javascript" src="<?php echo ORDERFORM_URL_SAME_DOMAIN; ?>whois.php?display=form&type=inline&cart=<?php echo ORDERFORM_ID; ?>"></script>
+	
+	<br />
+
+	<script type="text/javascript" src="<?php echo ORDERFORM_URL_SAME_DOMAIN; ?>whois.php?display=results&cart=<?php echo ORDERFORM_ID; ?>"></script>
+</div>

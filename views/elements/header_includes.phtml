@@ -1,0 +1,13 @@
+<link type="text/css" href="<?php echo ORDERFORM_URL; ?>css/orderform.css" rel="stylesheet" />
+<script type="text/javascript" src="<?php echo ORDERFORM_URL; ?>js/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo ORDERFORM_URL; ?>js/orderform.js"></script>
+
+<?php if(ORDERFORM_CSS_COLOR){ ?>
+<style type="text/css">
+	.o_form_container a{color:<?php echo ORDERFORM_CSS_COLOR; ?>;}
+	.o_form .progress{border-top-color: <?php echo ORDERFORM_CSS_COLOR; ?>;}
+	.o_form .progress ol li{border-color: <?php echo ORDERFORM_CSS_COLOR; ?>;}
+	.o_form .progress ol li.active{ background-color:<?php echo ORDERFORM_CSS_COLOR; ?>;}
+	.o_form .button_submit{ background-color:<?php echo ORDERFORM_CSS_COLOR; ?>;}
+</style>
+<?php } ?>

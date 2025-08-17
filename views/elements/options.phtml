@@ -1,0 +1,18 @@
+<?php
+if(!empty($option_products))
+{
+	?>
+	<div class="cart_options">
+		<h2><?php echo __('options'); ?></h2>
+		<br />
+		
+		<?php
+		foreach($option_products as $prod_id => $tmp_option)
+		{
+			?><label class="no_width"><input type="checkbox" style="width: 25px;float: left;" name="Options[<?php echo $prod_id; ?>]" value="<?php echo $tmp_option->ProductCode; ?>" <?php if(isset($element_list['Option'.$prod_id])){ echo "checked=\"checked\""; } ?> /> <div style="margin-left: 32px;display: block;"><?php echo nl2br($tmp_option->ProductKeyPhrase); ?> <?php if(SHOW_SELECT_PRICE == 'yes'){ show_amount_span($tmp_option); } ?></div></label><br /><?php
+		}
+		?>
+	</div>
+	<?php
+}
+?>

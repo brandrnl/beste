@@ -1,0 +1,31 @@
+<?php 
+if(empty($hosting_products))
+{ 
+	?>
+	<div class="error_message">
+		<strong><?php echo __('error message'); ?></strong><br />
+		<?php echo __('no products in productgroup'); ?>
+	</div>
+	<br /><?php 
+}
+else
+{
+	$this->element('hosting_new_'.HOSTING_THEME.'.phtml','hosting');
+}
+?>
+
+<?php if(HOSTING_DEFAULT_DOMAIN_CHOICE == 'yes' && count($domains) > 1){ ?>
+<br />
+<label class="w1"><?php echo __('default domain'); ?>:</label>
+<select name="DefaultDomain" class="w1">
+	<?php
+	foreach($domains as $tmp_domain)
+	{
+		?>
+		<option value="<?php echo $tmp_domain['Domain']; ?>" <?php if(isset($order['DefaultDomain']) && $order['DefaultDomain'] == $tmp_domain['Domain']){ echo "selected=\"selected\""; } ?>><?php echo $tmp_domain['Domain']; ?></option>
+		<?php
+	}
+	?>
+</select>
+<br />
+<?php } ?>

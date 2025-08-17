@@ -1,0 +1,106 @@
+<?php
+foreach($custom_client_fields as $field)
+{
+	$custom_prefix = (isset($custom_prefix) && in_array($custom_prefix,array('customer','handle'))) ? $custom_prefix : 'customer';
+	$custom_value = (isset($custom_client_fields_values[$field['FieldCode']])) ? $custom_client_fields_values[$field['FieldCode']] : null;
+	
+	$label_name = (__('label custom client fields - '.$field['FieldCode'])) ? __('label custom client fields - '.$field['FieldCode']) : htmlspecialchars($field['LabelTitle']);
+
+	// Depending on type of field, show HTML
+	switch($field['LabelType'])
+	{
+		case 'select':
+			?>
+			<label><?php echo $label_name; ?>:</label>
+			<?php
+			$options = (array) json_decode($field['LabelOptions']);
+			$selected = ($custom_value && array_key_exists('opt-'.htmlspecialchars_decode($custom_value), $options)) ? htmlspecialchars_decode($custom_value) : $field['LabelDefault'];
+			?>
+			<select name="custom[<?php echo $custom_prefix; ?>][<?php echo $field['FieldCode']; ?>]" class="w1 customfield">
+			<?php
+			foreach($options as $k=>$v)
+			{
+				echo '<option value="'.htmlspecialchars(substr($k, 4)).'" '.(($selected == substr($k, 4)) ? 'selected="selected"' : '').'>'.htmlspecialchars($v).'</option>';
+			}
+			?>
+			</select>
+			<br />
+			<?php
+			break;
+		case 'input':
+			?>
+			<label><?php echo $label_name; ?>:</label>
+			<input type="text" class="customfield" name="custom[<?php echo $custom_prefix; ?>][<?php echo $field['FieldCode']; ?>]" value="<?php echo (($custom_value) ? $custom_value : ''); ?>"/>
+			<br />
+			<?php
+			break;
+		case 'checkbox':
+			?>
+			<label style="float:left;"><?php echo $label_name; ?>:</label>
+			<div style="float:left;">
+				<?php			
+				$options = (array) json_decode($field['LabelOptions']);
+				
+				if(is_null($custom_value))
+				{
+					$checked = (array) json_decode($field['LabelDefault']);
+				}
+				else
+				{
+					$checked = (is_array($custom_value)) ? $custom_value : array();
+				}
+					
+				foreach($options as $k=>$v)
+				{
+					?>
+					<label class="no_width"><input type="checkbox" name="custom[<?php echo $custom_prefix; ?>][<?php echo $field['FieldCode']; ?>][]" class="customfield" value="<?php echo htmlspecialchars(substr($k, 4)); ?>" <?php echo ((in_array(substr($k, 4),$checked)) ? 'checked="checked"' : ''); ?>> <?php echo htmlspecialchars($v); ?></label>
+					<br />
+					<?php
+				}
+				?>
+			</div>
+			<br clear="both" />
+			<?php
+			break;
+		case 'radio':
+			?>
+			<label style="float:left;"><?php echo $label_name; ?>:</label>
+			<div style="float:left;">
+				<?php
+				$options = (array) json_decode($field['LabelOptions']);
+				$checked = ($custom_value && array_key_exists('opt-'.htmlspecialchars_decode($custom_value), $options)) ? htmlspecialchars_decode($custom_value) : $field['LabelDefault'];
+
+				foreach($options as $k=>$v)
+				{
+					?>
+					<label class="no_width"><input type="radio" name="custom[<?php echo $custom_prefix; ?>][<?php echo $field['FieldCode']; ?>]" class="customfield" value="<?php echo htmlspecialchars(substr($k, 4)); ?>" <?php echo (substr($k, 4) == $checked) ? 'checked="checked"' : ''; ?>> <?php echo htmlspecialchars($v); ?></label>
+					<br />
+					<?php
+				}
+				?>
+			</div>
+			<br clear="both" />
+			<?php
+			break;
+		case 'date':
+			?>
+			<label><?php echo $label_name; ?>:</label>
+			<input type="text" class="customfield" name="custom[<?php echo $custom_prefix; ?>][<?php echo $field['FieldCode']; ?>]" value="<?php echo (($custom_value) ? rewrite_date_db2site($custom_value) : ''); ?>" style="width: 70px;"/>
+			<br />
+			<?php
+			break;
+		case 'textarea':
+			?>
+			<label style="float:left;"><?php echo $label_name; ?>:</label>
+			<div style="float:left;padding-left:4px;">
+				<textarea class="customfield" style="border: 1px solid #CCCCCC; border-radius: 3px 3px 3px 3px;resize: none;width: 290px;height:75px;padding:5px;font-family: arial;" name="custom[<?php echo $custom_prefix; ?>][<?php echo $field['FieldCode']; ?>]"><?php echo (($custom_value) ? $custom_value : ''); ?></textarea>
+			</div>
+			<br clear="both" />
+			<?php
+			break;
+	}	
+}
+
+?>
+
+<br />

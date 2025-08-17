@@ -1,0 +1,453 @@
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+
+.image-block img {
+  height: 100px;
+  display: block;
+  position: absolute;
+  margin-left: 190px;
+  margin-top: -65px;
+  animation: bounce 5s infinite;
+}
+@media only screen and (max-width: 700px) {
+  .image-block img {
+  width: 100px;
+  display: block;
+  position: absolute;
+  margin-left: 240px;
+  margin-top: -65px;
+}
+	
+	.o_form .w_form input[type="text"] {
+    width: calc(65% - 54px) !important;
+    height: 44px !important;
+  }
+	.w_result table td.domain_td_checked_unavailable {
+  color: #f33d53;
+  background-color: #f33d532b;
+  padding: 5px 10px 5px 10px;
+ width:56px !important;
+}
+	 .o_form input[type="text"].small {
+    width: 79px !important;
+  }
+	 .o_form input[type="text"], .o_form input[type="password"], .o_form select, .o_form textarea {
+    font-size: 14px;
+    line-height: 18px;
+    width: 100%;
+    padding: 7px 4px;
+    height: 35px !important;
+  }
+}
+.o_form input[type="text"], .o_form input[type="password"] {
+height: 22px;
+  margin-bottom: 5px !important;
+}
+.domain_table {
+background:#fff !important;
+padding: 20px;
+}
+.CustomerForm {
+background:#fff !important;
+padding: 30px;
+}
+.o_form select {
+  width: 300px;
+  padding: 4px 5px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  margin-bottom: 1px;
+  height: 35px ;
+}
+.w_result table td.domain_td_checked_available {
+  color: green;
+  background: #cafce0;
+  padding: 5px 10px 5px 10px;
+  width:40px !important;
+}
+.w_result table td.domain_td_checked_unavailable {
+  color: #f33d53;
+  background-color: #f33d532b;
+  padding: 5px 10px 5px 10px;
+ width:42px ;
+}
+.o_form .button_submit:hover {
+  cursor: pointer;
+  background: #f33d53 !important;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 8px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 0;
+}
+@font-face {
+    font-family: 'mavenpro'; /*a name to be used later*/
+    src: url('../fonts/Maven Pro Regular.otf'); /*URL to font*/
+}
+
+body {
+    font-family: 'mavenpro';
+    background: url('../images/pattern.png');
+}
+
+.bg-primary {
+    background-color: #2b2d2f !important;
+}
+
+.tld_part {
+    font-size: 1.5em; /* Increase or adjust as needed */
+}
+.w_result a {
+  color: #fff !important;
+  text-decoration: none !important;
+  cursor: pointer;
+  background-color: #21292C;
+  padding: 11px;
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 700;
+}
+.w_result a:hover {
+
+  color: #fff !important; /* Verander tekstkleur naar wit bij hover */
+  background-color:#f33d53 !important;
+}
+
+
+.wf_form_submit {
+  color: #fff !important;
+  text-decoration: none !important;
+  cursor: pointer;
+  background-color: #f33d53 !important;
+  padding: 11px;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 700;
+  border: 1px solid #f33d53;
+}
+
+
+
+.w_form input[type="text"] {
+  padding: 11px!important;
+    padding-top: 11px;
+    padding-right: 11px;
+    padding-bottom: 11px;
+    padding-left: 11px;
+  width: 250px;
+  border: 1px solid #CCCCCC;
+}
+.remove_link {
+  background: none !important;
+  display: -webkit-inline-box!important;
+}
+
+/***************************************************
+                 Header and Footer
+***************************************************/
+/** Container **/
+.o_form_container{position:relative; display:block; width:100%; min-width:460px; max-width:auto; margin:0 auto; font-size:17px; line-height:25px;}
+.o_form_container > *{font-family:Arial;}
+
+
+
+
+
+
+/***************************************************
+                Order form - General
+***************************************************/
+/** General **/
+.o_form h2{border-bottom:1px solid #e6e6e6; margin:0; padding:0 0 10px 0;}
+.o_form .textright{text-align:right !important;}
+.o_form .nomargin{margin:0;}
+.o_form .amount_span{color:#666; font-size:12px; padding-left:15px}
+.o_form .footer_excl_incl_vat { color:#666; }
+.o_form .align_right{text-align:right;}
+
+/** Hyperlinks **/
+.o_form a{color:#2084db; text-decoration:underline; cursor:pointer;}
+.o_form a:hover{text-decoration:none;}
+
+/** Error messages **/
+.o_form .error_message{border-radius:0px; border:1px solid #f33d53; margin-bottom:10px; padding:17px 21px 17px 17px; background-color:#f33d530a; line-height:18px;}
+.o_form .warning_message{border-radius:0px; border:1px solid #f33d53; margin-bottom:10px; padding:17px 21px 17px 17px; background-color:#f33d530a; line-height:18px;}
+
+
+/** Navigation buttons **/
+.o_form .nav{width:100%;}
+.o_form .nav p{width:50%; float:right; text-align:right;}
+.o_form .nav p:first-child + p{text-align:left;}
+.o_form .button_submit{cursor:pointer; background:#21292c !important; color:#ffffff; font-weight:bold; padding:8px 15px; border-radius:4px; text-decoration:none; border:0;}
+
+
+/** Form fields **/
+.o_form label{display:inline-block; width:150px;}
+.o_form label.no_width{width:auto;}
+.o_form input[type=text], .o_form input[type=password]{width:290px; padding:5px; border:1px solid #cccccc; border-radius:3px; margin-bottom:1px;}
+.o_form input[type=text].large{width:80%; padding:5px; font-size:14px;}
+.o_form input[type=text].small{width:60px;}
+.o_form input[type=text].small_fill{width:213px;}
+.o_form input[type=text].contactperson{width:137px;}
+.o_form select{width:300px; padding:4px 5px; border:1px solid #cccccc; border-radius:3px; margin-bottom:1px;}
+.o_form select.contactperson{width:72px;}
+.o_form textarea.comment{width:100%; height:125px; resize:none; border:1px solid #cccccc; border-radius:3px;}
+
+
+/** Progress bar (on the top) **/
+.o_form .progress{display:block; position:relative; width:95%; margin:0 auto; border-top:2px solid #f33d53 !important;}
+.o_form .progress ol{width:100%; list-style:none; margin:0; padding:0;}
+.o_form .progress ol li{position:absolute; width:12px; height:12px; margin:-11px 0 0 -10px; padding:0; text-indent:-4000px; border-radius:10px; border:4px solid #c4bacb; background:#ffffff;}
+.o_form .progress ol li.active{width:20px; height:20px; margin:-15px 0 0 -14px; border-radius:14px; background:#f33d53 !important; border-color: #f33d53!important;}
+.o_form .progress ol li:first-child + li{left:33%;}
+.o_form .progress ol li:first-child + li + li{left:66%;}
+.o_form .progress ol li:first-child + li + li + li{left:100%;}
+
+
+
+
+
+/***************************************************
+                Order form - Steps
+***************************************************/
+/** Step 0: Domain check **/
+.o_form .w_form{line-height:35px;}
+.o_form .goto_orderform{float:right; display:block;}
+.o_form .w_result .goto_orderform{display:none; visibility:hidden;}
+
+
+/** Step 1: Cart table **/
+.o_form table.cart{width:100%;}
+.o_form table.cart .noborder{border:0 !important; background:#ffffff !important;}
+.o_form table.cart .bordertop{border-top:1px solid #e6e6e6 !important;}
+.o_form table.cart th{padding:10px 0px 10px 5px; text-align:left; font-weight:bold; border:0px;  border-bottom:1px solid #e6e6e6;}
+.o_form table.cart td{padding:10px 0px 10px 5px; border:0px; border-bottom:1px solid #e6e6e6; vertical-align:top;}
+.o_form table.cart tr.addition{background:#f2f2f2; line-height:24px;}
+.o_form table.cart tr.italic td{font-style:italic;}
+.o_form table.cart .auth_key{margin-top:8px; color:#666666; padding-left:15px;}
+
+
+/** Step 2: Customer information table **/
+.o_form table.customer{width:100%;}
+.o_form table.customer td{padding:1px 0;}
+.o_form a.check_existing_customer_link{margin-left:10px;}
+
+
+/** Step 2: Payment options **/
+.o_form .payment_box{width:auto; border:1px solid #e6e6e6; border-radius:4px; margin:10px 0px; padding:0px 10px; min-height:60px; cursor:pointer;overflow:hidden;}
+.o_form .payment_box.active{cursor:default; border:1px solid #ccc;}
+.o_form .payment_box span.small_text{color:#666; font-size:12px;}
+.o_form .payment_box td{height:60px;}
+.o_form .payment_box .payment_box_details{display:none; margin-left:32px;}
+
+
+/** Step 3: Overview **/
+.o_form .discount_coupon_add {display:block;float:left;margin-top:9px;margin-left:5px;cursor:pointer}
+.o_form #discountDiv {float:left;}
+.o_form #discountDiv label {width:auto;margin-right:10px;}
+.o_form #discountDiv input {width:150px !important}
+
+
+/***************************************************
+              Order form - Elements
+***************************************************/
+/** Domain element: Domain details table **/
+.o_form .domain_table .ico-del{cursor:pointer; color:#999999; text-decoration:none; font-size:11px; position:absolute; right:20px; padding:0px 5px;}
+.o_form .domain_table .auth_key{margin-top:8px; color:#666; padding-left:30px;}
+.o_form .domain_table .auth_key input{width:200px; padding:2px 5px; margin-left:5px;}
+
+
+/** Hosting element: Package boxes **/
+.o_form .package_container{width:100%;}
+.o_form .package_container .package_box {
+  float: left;
+  width: 250px;
+  border: 1px solid #e6e6e6;
+  border-radius: 0px;
+  margin: 10px 10px 0px 0px;
+  padding: 16px 16px;
+  min-height: 90px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+
+.o_form .package_container .package_box.last_col{margin-right:0px;}
+.o_form .package_container.grid1 .package_box{width:658px;} 
+.o_form .package_container.grid2 .package_box{width:313px;} 
+.o_form .package_container.grid3 .package_box{width:198px;} 
+.o_form .package_container .package_box.active {
+  border: 2px solid #ccc;
+    border-top-color: rgb(204, 204, 204);
+    border-right-color: rgb(204, 204, 204);
+    border-bottom-color: rgb(204, 204, 204);
+    border-left-color: rgb(204, 204, 204);
+  background-color: #f33d5308;
+  border-color: #F33D53;
+}
+.o_form .package_container .package_box span{display:block;}
+.o_form .package_container .package_box span.amount_span {
+  padding: 0px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #222;
+}
+
+
+/** Hosting element: Compare table **/
+.o_form .hosting_table{width:100%; table-layout:fixed}
+.o_form .hosting_table td{padding:5px; border:0px; border-left:1px solid #e6e6e6; text-align:center;}
+.o_form .hosting_table td:first-child{text-align:left;}
+.o_form .hosting_table td:last-child{border-right:1px solid #e6e6e6;}
+.o_form .hosting_table tr:first-child td{border-top:1px solid #e6e6e6; border-bottom:1px solid #e6e6e6;}
+.o_form .hosting_table tr:first-child td:first-child{border-left:0px; border-top:0px;}
+.o_form .hosting_table tr:last-child td{border-top:1px solid #e6e6e6; border-bottom:1px solid #e6e6e6;}
+.o_form .hosting_table tr:last-child td:first-child{border-left:0px; border-bottom:0px;}
+
+
+/***************************************************
+              Responsive / mobile
+***************************************************/
+@media only screen and (max-width: 700px) {
+	
+	/** Body and container **/
+	body{margin:0.2rem;}
+	.o_form_container{width:100%; min-width:inherit; max-width:inherit; padding:0 5px; line-height:24px; box-sizing:border-box;}
+	.o_form_container *{box-sizing:border-box;}
+	
+	/** Progress bar (on the top) **/
+	.o_form .progress *{box-sizing:content-box;}
+	.o_form .progress ol li{position:absolute; width:10px; height:10px; margin:-7px 0 0 -5px; padding:0; text-indent:-4000px; border-radius:6px; border:1px solid #2084db; background:#ffffff;}
+	.o_form .progress ol li.active{width:10px; height:10px; margin:-7px 0 0 -7px; border-radius:10px; background-color: #f33d53!important;}
+	
+	/** Form fields **/
+	.o_form label{display:inline-block; width:100%; line-height:26px; margin-top:5px;}
+	.o_form label.no_width{margin-top:0;}
+	.o_form input[type=text], .o_form input[type=password], .o_form select, .o_form textarea{font-size:14px; line-height:18px; width:100%; padding:7px 4px; }
+	.o_form select{height:35px;}
+	.o_form textarea{padding:5px;}
+	.o_form input[type=radio], .o_form input[type=checkbox]{vertical-align: baseline;}
+	.o_form input[type=text].small{width:80px;}
+	.o_form input[type=text].small_fill{width:calc(100% - 85px);}
+	.o_form input[type=text].contactperson{width:calc(100% - 161px);}
+	
+/** Hides **/
+	.mobile_hide_column{display:none; width:0; height:0; opacity:0; visibility: collapse;}
+	.mobile_hide_text{display:none; width:0; height:0; opacity:0;}
+	
+	/** Generals **/
+	.o_form .amount_span{font-size:inherit;}
+	.o_form .active{background:none;}
+	
+	/** Step 0: Domain check **/
+	.o_form .w_form input[type=text]{width: calc(100% - 94px);}
+	.o_form table.cart td{padding:3px 0px 3px 3px;}
+	.o_form table td.domain_td_order{ font-size:0;}
+    .o_form table td.domain_td_order .order_link {
+    display: inline-block !important;
+    width: 24px !important;
+    height: 24px !important;
+    margin-top: 5px !important;
+    text-indent: 100% !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    background: url('../images/cart.png') no-repeat center center !important;
+    font-size: 0px;
+  }
+
+   .o_form table td.domain_td_order .remove_link{display:inline-block; width:14px;height:14px;margin-top:5px; text-indent: 100%;white-space: nowrap; overflow: hidden; background: url('../images/delete.png') no-repeat 35% 95% !important;}
+    .o_form table td.domain_td_order .remove_link img {display:none;}
+	.o_form table tr.domain_td_checked_available td{color:#0E5704;}
+	.o_form table tr.domain_td_checked_unavailable td{color:#c02e19;}
+	.o_form table tr.domain_td_checked_unavailable td{}
+	.o_form .domain_table .ico-del{left:initial; width:100%; text-align:right; right:10px;}
+    .o_form .domain_table table th:nth-child(2),
+    .o_form .domain_table table td:nth-child(2){ display:none;}
+
+    .o_form table td:first-child {word-break:break-all;}
+
+    .o_form .show_amount_span + .amount_span { padding-left:10px; }
+
+	.w_result table{table-layout: inherit; border-bottom: 1px solid #e6e6e6!important;}
+	.w_result table th{border-bottom: hidden!important;}
+	.w_result table th{display: none; opacity: 0; height: 0; visibility: collapse;}
+	.w_result table th:nth-child(1){display: block; visibility: visible; opacity: 1; height: 31px;}
+	.w_result table td{display: block; border: hidden!important;}
+	.w_result table td:first-child{word-break:break-all;}
+	.w_result table td .domain_td_checked_available{display: block; font-size: 12px; opacity: 1;}
+	.w_result table tr td:nth-child(1){display: inline-block; float: left; width:80%; padding-bottom: 0!important; color: #000; font-size: 18px !important;}
+	.w_result table tr td:nth-child(2){display: block!important; float: right; width:20%; text-align: right;  padding-bottom: 0!important; }
+	.w_result table tr td:nth-child(3){display: block; float: left; text-align: left; color:#666666; clear:left;}
+	.w_result table tr td:nth-child(4){display: none;  padding-bottom: 0!important;}
+	.w_result table tr td:nth-child(5){float: left; display: block; color: #666666;}
+	.w_result table tr td:nth-child(6){float: right; color: #666666; margin-top: -2px;}
+	.w_result table td.domain_td_order{font-size:14px;}
+	.w_result table td.domain_td_order .order_link{background: none; text-indent: 0; overflow: auto; height: auto; width: auto; margin-top: 0; display: block;}
+	.w_result table tr.domain_td_checked_available td span{color: green;}
+	.w_result table tr.domain_td_checked_unavailable td span{color: red;}
+	.w_result table td.domain_td_order .remove_link{background-position: 5px 7px;}
+
+	.w_form form input.wf_form_submit{width: 111px!important; padding: 10px!important; margin-top: 5px!important;}
+
+	#DomainTypeDiv_new input.wf_form_submit{width: 90px!important; padding: 0!important; margin: 0!important;}
+	#DomainTypeDiv_new > input[type="text"]{width: calc(100% - 94px);}
+
+    /** Step 0: SSL wizard **/
+    #wizard_result_table table th:nth-child(2),
+    #wizard_result_table table td:nth-child(2){ display:none; }
+    #wizard_result_table table th:last-child { width:auto;}
+    #wizard_result_table table td:last-child a{ display:inline-block; width:14px;height:14px;margin-top:5px; text-indent: 100%;white-space: nowrap; overflow: hidden; background: url('../images/cart.png') no-repeat center center;}
+    #ssl_main_options label + div { margin-left:0px !important; }
+
+	/** Hosting element: Package boxes **/
+	.o_form .package_container .details{margin-top:10px; color:#656565;}
+	.o_form .package_container.grid1 .package_box{width:100%; margin-top:25px;}
+	.o_form .package_container.grid2 .package_box{width:100%; margin-top:25px;}
+	.o_form .package_container.grid3 .package_box{width:100%; margin-top:25px;}
+	.o_form .package_container.grid4 .package_box{width:100%; margin-top:25px;}
+
+    .o_form .package_container .package_box:last-child {margin-bottom:25px;}
+	
+	/** Navigation buttons **/
+	.o_form .goto_orderform{float:none; width:100%; margin-bottom:25px; text-align:center;}
+	.o_form .w_result .goto_orderform{display:none !important;}
+	.o_form .nav p{width:100%; float:none;}
+	.o_form .nav p:first-child + p{float:none; margin:20px 0 20px 0;}
+	.o_form .button_submit{width:100%; display:inline-block; text-align:center;}
+	.o_form .button_submit.back{width:auto; background:none; color:#fff; }
+	
+	/** Step 2: Customer information table **/
+	.o_form a.check_existing_customer_link{float:right;}
+	.o_form #ExistingCustomerDiv br{display:none;}
+	.o_form .payment_box td{white-space:normal;}
+	.o_form .payment_box td:nth-child(2){ opacity:1;}
+	
+	/** Step 3: Overview **/
+	.o_form #discountDiv{width:100%; margin:20px 0; border:1px dotted #e6e6e6; padding:5px 20px 10px 20px;}
+	.o_form #discountDiv br{display:none;}
+	.o_form #discountDiv label{line-height:26px; display:inline-block; width:100%;}
+	.o_form #discountDiv input{width:calc(100% - 70px) !important;}
+
+    .o_form .overview_customer { float:none !important; width:100% !important; margin-bottom: 30px;}
+    .o_form .overview_customer.payment_data{margin-bottom:-40px;}
+}
+
+@media only screen and (min-width: 701px) {
+	 
+	/** Hide desktop, show mobile **/
+	.mobile_show_column{display:none; width:0; height:0; opacity:0; visibility: collapse;}
+	.mobile_show_text{display:none; width:0; height:0; opacity:0;}
+
+}
+

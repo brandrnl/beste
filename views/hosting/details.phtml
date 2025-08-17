@@ -1,0 +1,74 @@
+<div class="o_form">
+
+	<br />
+
+	<?php
+	$this->set('progress_step','start');
+	$this->element('progress.phtml');
+	?>
+	
+	<?php
+	$this->element('errors.phtml');
+	?>
+	
+	<form name="OrderForm" method="post" action="?">
+	<input type="hidden" name="step" value="cart" />
+	<input type="hidden" name="cart" value="<?php echo ORDERFORM_ID; ?>" />
+	<input type="hidden" name="action" value="" />
+	
+	<?php if(DOMAIN_AVAILABLE == 'yes'){ ?>	
+	<h2><?php echo __('domains'); ?></h2>
+	<br />
+	
+	<label class="no_width"><input name="DomainType" value="new" type="radio" <?php if(!isset($order['DomainType']) || $order['DomainType'] == 'new'){ echo "checked=\"checked\""; } ?> /> <?php echo __('order new domains'); ?></label><br />
+	<label class="no_width"><input name="DomainType" value="existing" type="radio" <?php if(isset($order['DomainType']) && $order['DomainType'] == 'existing'){ echo "checked=\"checked\""; } ?>/> <?php echo __('i already have a domain'); ?></label><br />
+	
+	<br />
+	
+	<div id="DomainTypeDiv_new" <?php if(isset($order['DomainType']) && $order['DomainType'] != 'new'){ echo "style=\"display:none\""; } ?>>
+		
+		<?php if(empty($domains)){ ?>
+			<label class="w1"><?php echo __('domain'); ?>:</label>
+			<input type="text" name="check_domain" value="" /> <input type="button" value="<?php echo __('check domain'); ?>" class="wf_form_submit" />
+		<?php }else{ 
+			
+			$this->element('domain_table.phtml','domain');
+			
+			} ?>
+	
+	</div>
+	<div id="DomainTypeDiv_existing" <?php if(!isset($order['DomainType']) || $order['DomainType'] != 'existing'){ echo "style=\"display:none\""; } ?>>
+		<label><?php echo __('current domain'); ?></label>
+		<input type="text" name="Domain" value="<?php if(isset($order['Domain'])){ echo $order['Domain']; } ?>"/>
+		<br /><br />
+	</div>
+	
+	<br />
+	<?php } ?>
+	
+	<h2><?php echo __('hosting'); ?></h2>
+	<br />
+	
+	<?php 
+	$this->element('hosting_new.phtml','hosting'); 
+	?>
+	
+	<?php 
+	$this->element('billingperiod.phtml'); 
+	?>
+	
+	<br /><br />
+	
+
+	<?php
+	$this->element('options.phtml');
+	?>
+	</form>
+	
+	<div class="nav">
+		<p><a id="order_submit_btn"  class="button_submit"><?php echo __('button to customerdata'); ?></a></p>
+
+		<p class="footer_excl_incl_vat"><?php echo (SHOW_VAT_INCLUDED) ? __('footer prices are including tax') : ((count($array_taxpercentages) === 0 && count($array_total_taxpercentages) === 0) ? '&nbsp;' : __('footer prices are excluding tax')); ?></p>
+	</div>
+	
+</div>

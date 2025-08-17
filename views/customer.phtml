@@ -1,0 +1,536 @@
+<div class="o_form">
+
+	<br />
+
+	<?php
+	$this->set('progress_step','customer');
+	$this->element('progress.phtml');
+	?>
+	
+	<?php
+	$this->element('errors.phtml');
+	?>
+	
+	<form name="OrderForm" method="post" action="?" class="CustomerForm">
+	<input type="hidden" name="step" value="customer" />
+	<input type="hidden" name="cart" value="<?php echo ORDERFORM_ID; ?>" />
+	<input type="hidden" name="action" value="" />
+
+	<h2><?php echo __('customer data'); ?></h2>
+	<br />
+	
+	<label class="no_width"><input type="checkbox" name="ExistingCustomer" value="yes" <?php if(isset($order['ExistingCustomer']) && $order['ExistingCustomer'] == 'yes'){ echo "checked=\"checked\""; } ?>/> <?php echo sprintf(__('i am already a customer'),COMPANY_NAME); ?></label><br /><br />
+	
+	<div id="NewCustomerDiv" <?php if(isset($order['ExistingCustomer']) && $order['ExistingCustomer'] == 'yes'){ echo "style=\"display:none;\""; } ?>>
+		<label><?php echo __('companyname'); ?>:</label>
+		<input type="text" name="CompanyName" value="<?php if(isset($customer['CompanyName'])){ echo $customer['CompanyName']; } ?>"/>
+		<br />
+		
+		<div id="CustomerCompanyDiv" <?php if(!isset($customer['CompanyName']) || !$customer['CompanyName']){ echo "style=\"display:none;\""; } ?>>
+			<label><?php echo __('companynumber'); ?>:</label>
+			<input type="text" name="CompanyNumber" value="<?php if(isset($customer['CompanyNumber'])){ echo $customer['CompanyNumber']; } ?>"/>
+			<br />
+			
+			<label><?php echo __('taxnumber'); ?>:</label>
+			<input type="text" name="TaxNumber" value="<?php if(isset($customer['TaxNumber'])){ echo $customer['TaxNumber']; } ?>"/>
+			<br />
+			
+            <?php if(!empty($array_legaltype)){ ?>
+			<label><?php echo __('legalform'); ?>:</label>
+			<select name="LegalForm" class="w1">
+				<?php foreach($array_legaltype as $k=>$v){ ?>
+					<option value="<?php echo $k; ?>" <?php if(isset($customer['LegalForm']) && $customer['LegalForm'] == $k){ echo "selected=\"selected\""; } ?>><?php echo $v; ?></option>
+				<?php } ?>
+			</select>
+			<br />
+            <?php } ?>
+			
+			<br />
+		</div>
+		
+		<label><?php echo __('contact person'); ?>:</label>
+		<select name="Sex" class="contactperson">
+			<?php foreach($array_sex as $k=>$v){ ?>
+				<option value="<?php echo $k; ?>" <?php if(isset($customer['Sex']) && $customer['Sex'] == $k){ echo "selected=\"selected\""; } ?>><?php echo $v; ?></option>
+			<?php } ?>
+		</select>
+		<input type="text" name="Initials" value="<?php if(isset($customer['Initials'])){ echo $customer['Initials']; } ?>" class="small"/> 
+		<input type="text" name="SurName" value="<?php if(isset($customer['SurName'])){ echo $customer['SurName']; } ?>"  class="contactperson"/>
+		<br />
+		
+		<label><?php echo __('address'); ?>:</label>
+		<input type="text" name="Address" value="<?php if(isset($customer['Address'])){ echo $customer['Address']; } ?>"/>
+		<br />
+		<?php if(IS_INTERNATIONAL){ ?>
+			<label>&nbsp;</label>
+			<input type="text" name="Address2" value="<?php if(isset($customer['Address2'])){ echo $customer['Address2']; } ?>"/>
+			<br />
+		<?php } ?>
+		
+		<label><?php echo __('zipcode and city'); ?>:</label>
+		<input type="text" name="ZipCode" value="<?php if(isset($customer['ZipCode'])){ echo $customer['ZipCode']; } ?>" class="small"/> 
+		<input type="text" name="City" value="<?php if(isset($customer['City'])){ echo $customer['City']; } ?>" class="small_fill"/>
+		<br />
+		
+		<?php 
+		if(IS_INTERNATIONAL)
+		{
+			?>
+			<label><?php echo __('state'); ?></label>
+			<input type="text" name="State" value="<?php if(isset($customer['StateName']) && !isset($array_states[$customer['Country']])){ echo $customer['StateName']; } ?>" <?php if(isset($customer['Country']) && isset($array_states[$customer['Country']])){ echo "style=\"display:none;\""; } ?> maxlength="100"/>
+			<select name="StateCode" class="w1" <?php if(!isset($customer['Country']) || !isset($array_states[$customer['Country']])){ echo "style=\"display:none;\""; } ?>>
+				<option value=""><?php echo __('please choose'); ?></option>
+				<?php if(isset($array_states[$customer['Country']])){ foreach($array_states[$customer['Country']] as $key=>$value){ ?>
+					<option value="<?php echo $key; ?>" <?php if($customer['State'] == $key){ echo "selected=\"selected\""; } ?>><?php echo $value; ?></option>
+				<?php } } ?>
+			</select>
+			<br />
+			<?php 
+			
+		}
+		?>
+		
+		<label><?php echo __('country'); ?>:</label>
+		<select name="Country" class="w1">
+			<?php foreach($array_country as $k=>$v){ ?>
+				<option value="<?php echo $k; ?>" <?php if(isset($customer['Country']) && $customer['Country'] == $k){ echo "selected=\"selected\""; } ?>><?php echo $v; ?></option>
+			<?php } ?>
+		</select>
+		<br />
+		
+		<br />
+		
+		<label><?php echo __('phonenumber'); ?>:</label>
+		<input type="text" name="PhoneNumber" value="<?php if(isset($customer['PhoneNumber'])){ echo $customer['PhoneNumber']; } ?>"/>
+		<br />
+		
+		<label><?php echo __('emailaddress'); ?>:</label>
+		<input type="text" name="EmailAddress" value="<?php if(isset($customer['EmailAddress'])){ echo check_email_address($customer['EmailAddress'], 'convert', ', '); } ?>"/>
+		<br />
+		
+		<br />
+		
+		<?php
+		// Do we have custom client fields to show?
+		if(!empty($customer_custom_fields))
+		{
+			$this->set('custom_prefix', 'customer');			
+			$this->set('custom_client_fields',	$customer_custom_fields);
+			if(isset($customer_custom_fields_values)) { $this->set('custom_client_fields_values', $customer_custom_fields_values); }
+			$this->element('custom_client_fields.phtml');
+		}
+		?>
+		
+	</div>
+	
+	<div id="ExistingCustomerDiv" <?php if(!isset($order['ExistingCustomer']) || $order['ExistingCustomer'] != 'yes'){ echo "style=\"display:none;\""; } ?>>
+		
+		
+		<?php if(isset($debtor_info['DebtorCode']) && $debtor_info['DebtorCode']){ ?>
+			<div style="line-height:22px;">
+			<label><?php echo __('debtorcode'); ?>:</label>
+			<span><?php echo $debtor_info['DebtorCode']; ?> <a class="check_existing_customer_link"><?php echo __('logout'); ?></a></span><br />
+			
+			<?php if($debtor_info['CompanyName']){ ?>
+				<label><?php echo __('your companyname'); ?>:</label>
+				<span><?php echo $debtor_info['CompanyName']; ?></span><br />
+			<?php }else{ ?>
+				<label><?php echo __('your name'); ?>:</label>
+				<span><?php echo $debtor_info['Initials'] . ' ' . $debtor_info['SurName']; ?></span><br />
+			<?php } ?>
+			</div>
+		<?php }else{ ?>
+			<label><?php echo __('username'); ?>:</label>
+			<input type="text" name="ex_Username" value="<?php if(isset($deb_Username)){ echo $deb_Username; } ?>"/>
+			<br />
+			
+			<label><?php echo __('password'); ?>:</label>
+			<input type="password" name="ex_Password" value="<?php if(isset($deb_Password)){ echo $deb_Password; } ?>"/>
+			<a class="check_existing_customer_link"><?php echo __('login'); ?></a>
+			<br />
+		<?php } ?>
+		<br />
+	</div>
+	
+	<label class="no_width" <?php if(isset($order['ExistingCustomer']) && $order['ExistingCustomer'] == 'yes'){ echo "style=\"display:none\""; } ?>><input name="CustomInvoiceAddress" value="yes" type="checkbox" <?php if(isset($customer['CustomInvoiceAddress']) && $customer['CustomInvoiceAddress'] == 'yes'){ echo "checked=\"checked\""; } ?> /> <?php echo __('use custom invoice address'); ?></label><br />
+
+	<?php if(isset($allow_custom_whois_data) && $allow_custom_whois_data === true){ ?>
+	<label class="no_width"><input name="CustomWHOIS" value="yes" type="checkbox" <?php if(isset($order['CustomWHOIS']) && $order['CustomWHOIS'] == 'yes'){ echo "checked=\"checked\""; } ?> /> <?php echo __('use custom data for domain owner'); ?></label><br />
+	<?php } ?>
+	
+	<br /><br />
+	
+	<div id="CustomInvoiceAddressDiv" <?php if(!isset($customer['CustomInvoiceAddress']) || $customer['CustomInvoiceAddress'] != 'yes'){ echo "style=\"display:none\""; } ?>>
+		<h2><?php echo __('custom invoice address'); ?></h2>
+		
+		<br />
+		
+		<label><?php echo __('companyname'); ?>:</label>
+		<input type="text" name="InvoiceCompanyName" value="<?php if(isset($customer['InvoiceCompanyName'])){ echo $customer['InvoiceCompanyName']; } ?>"/>
+		<br />
+	
+		<label><?php echo __('contact person'); ?>:</label>
+        <select name="InvoiceSex" class="contactperson">
+			<?php foreach($array_sex as $k=>$v){ ?>
+				<option value="<?php echo $k; ?>" <?php if(isset($customer['InvoiceSex']) && $customer['InvoiceSex'] == $k){ echo "selected=\"selected\""; } ?>><?php echo $v; ?></option>
+			<?php } ?>
+		</select>
+		<input type="text" name="InvoiceInitials" value="<?php if(isset($customer['InvoiceInitials'])){ echo $customer['InvoiceInitials']; } ?>" class="small"/> 
+		<input type="text" name="InvoiceSurName" value="<?php if(isset($customer['InvoiceSurName'])){ echo $customer['InvoiceSurName']; } ?>"  class="contactperson"/>
+		<br />
+		
+		<label><?php echo __('address'); ?>:</label>
+		<input type="text" name="InvoiceAddress" value="<?php if(isset($customer['InvoiceAddress'])){ echo $customer['InvoiceAddress']; } ?>"/>
+		<br />
+		<?php if(IS_INTERNATIONAL){ ?>
+			<label>&nbsp;</label>
+			<input type="text" name="InvoiceAddress2" value="<?php if(isset($customer['InvoiceAddress2'])){ echo $customer['InvoiceAddress2']; } ?>"/>
+			<br />
+		<?php } ?>
+		
+		<label><?php echo __('zipcode and city'); ?>:</label>
+		<input type="text" name="InvoiceZipCode" value="<?php if(isset($customer['InvoiceZipCode'])){ echo $customer['InvoiceZipCode']; } ?>" class="small"/> 
+		<input type="text" name="InvoiceCity" value="<?php if(isset($customer['InvoiceCity'])){ echo $customer['InvoiceCity']; } ?>" class="small_fill"/>
+		<br />
+		
+		<?php 
+		if(IS_INTERNATIONAL)
+		{
+			?>
+			<label><?php echo __('state'); ?></label>
+			<input type="text" name="InvoiceState" value="<?php if(!isset($array_states[$customer['InvoiceCountry']])){ echo $customer['InvoiceStateName']; } ?>" <?php if(isset($array_states[$customer['InvoiceCountry']])){ echo "style=\"display:none;\""; } ?> maxlength="100"/>
+			<select name="InvoiceStateCode" class="w1" <?php if(!isset($array_states[$customer['InvoiceCountry']])){ echo "style=\"display:none;\""; } ?>>
+				<option value=""><?php echo __('please choose'); ?></option>
+				<?php if(isset($array_states[$customer['InvoiceCountry']])){ foreach($array_states[$customer['InvoiceCountry']] as $key=>$value){ ?>
+					<option value="<?php echo $key; ?>" <?php if($customer['InvoiceState'] == $key){ echo "selected=\"selected\""; } ?>><?php echo $value; ?></option>
+				<?php } } ?>
+			</select>
+			<br />
+			<?php 
+		}
+		?>
+		
+		<label><?php echo __('country'); ?>:</label>
+		<select name="InvoiceCountry" class="w1">
+			<?php foreach($array_country as $k=>$v){ ?>
+				<option value="<?php echo $k; ?>" <?php if(isset($customer['InvoiceCountry']) && $customer['InvoiceCountry'] == $k){ echo "selected=\"selected\""; } ?>><?php echo $v; ?></option>
+			<?php } ?>
+		</select>
+		<br />
+		
+		<label><?php echo __('emailaddress'); ?>:</label>
+		<input type="text" name="InvoiceEmailAddress" value="<?php if(isset($customer['InvoiceEmailAddress'])){ echo check_email_address($customer['InvoiceEmailAddress'], 'convert', ', '); } ?>"/>
+		<br />
+		
+		
+		<br /><br />
+	</div>
+
+	<?php if(isset($allow_custom_whois_data) && $allow_custom_whois_data === true){ ?>
+	<div id="CustomWHOISDiv" <?php if(!isset($order['CustomWHOIS']) || $order['CustomWHOIS'] != 'yes'){ echo "style=\"display:none\""; } ?>>
+		<h2><?php echo __('domain owner'); ?></h2>
+		
+		<br />
+
+		<?php
+		$list_debtor_handles = Handle_Model::listDebtorHandles();
+		if(!empty($list_debtor_handles))
+		{
+			?>
+			<label><?php echo __('use domain contact'); ?>:</label>
+			<select name="WHOISHandle" class="w1">
+				<option value=""><?php echo __('create a new domain contact'); ?></option>
+				<?php
+				$selected_handle = (isset($handle['id']) && $handle['id'] > 0) ? $handle['id'] : false;
+				foreach($list_debtor_handles as $_handle)
+				{
+					echo '<option value="'.$_handle->id.'"'.(($selected_handle == $_handle->id) ? ' selected="selected"' : '').'>'.htmlspecialchars((($_handle->CompanyName) ? $_handle->CompanyName . ' ('.$_handle->Initials . ' '. $_handle->SurName.')' : $_handle->Initials . ' '. $_handle->SurName) . ', '.$_handle->Address.', '.$_handle->City ).'</option>';
+				}
+				?>
+
+			</select>
+			<br/>
+
+			<br/>
+			<div id="CustomWHOISDivExisting"></div>
+			<div id="CustomWHOISDivNew">
+			<?php
+		}
+		?>
+
+		<label><?php echo __('companyname'); ?>:</label>
+		<input type="text" name="WHOISCompanyName" value="<?php if(isset($handle['CompanyName'])){ echo $handle['CompanyName']; } ?>"/>
+		<br />
+
+		<div id="WHOISCompanyDiv" <?php if(!isset($handle['CompanyName']) || !$handle['CompanyName']){ echo "style=\"display:none;\""; } ?>>
+
+
+			<label><?php echo __('companynumber'); ?>:</label>
+			<input type="text" name="WHOISCompanyNumber" value="<?php if(isset($handle['CompanyNumber'])){ echo $handle['CompanyNumber']; } ?>"/>
+			<br />
+			
+			<label><?php echo __('taxnumber'); ?>:</label>
+			<input type="text" name="WHOISTaxNumber" value="<?php if(isset($handle['TaxNumber'])){ echo $handle['TaxNumber']; } ?>"/>
+			<br />
+			
+            <?php if(!empty($array_legaltype)){ ?>
+			<label><?php echo __('legalform'); ?>:</label>
+			<select name="WHOISLegalForm" class="w1">
+				<?php foreach($array_legaltype as $k=>$v){ ?>
+					<option value="<?php echo $k; ?>" <?php if(isset($handle['LegalForm']) && $handle['LegalForm'] == $k){ echo "selected=\"selected\""; } ?>><?php echo $v; ?></option>
+				<?php } ?>
+			</select>
+			<br />
+            <?php } ?>
+			
+			<br />
+		</div>
+		
+		<label><?php echo __('contact person'); ?>:</label>
+		<select name="WHOISSex" class="contactperson">
+			<?php foreach($array_sex as $k=>$v){ ?>
+				<option value="<?php echo $k; ?>" <?php if(isset($handle['Sex']) && $handle['Sex'] == $k){ echo "selected=\"selected\""; } ?>><?php echo $v; ?></option>
+			<?php } ?>
+		</select>
+		<input type="text" name="WHOISInitials" value="<?php if(isset($handle['Initials'])){ echo $handle['Initials']; } ?>" class="small"/> 
+		<input type="text" name="WHOISSurName" value="<?php if(isset($handle['SurName'])){ echo $handle['SurName']; } ?>"  class="contactperson"/>
+		<br />
+		
+		<label><?php echo __('address'); ?>:</label>
+		<input type="text" name="WHOISAddress" value="<?php if(isset($handle['Address'])){ echo $handle['Address']; } ?>"/>
+		<br />
+		<?php if(IS_INTERNATIONAL){ ?>
+			<label>&nbsp;</label>
+			<input type="text" name="WHOISAddress2" value="<?php if(isset($handle['Address2'])){ echo $handle['Address2']; } ?>"/>
+			<br />
+		<?php } ?>
+		
+		<label><?php echo __('zipcode and city'); ?>:</label>
+		<input type="text" name="WHOISZipCode" value="<?php if(isset($handle['ZipCode'])){ echo $handle['ZipCode']; } ?>" class="small"/> 
+		<input type="text" name="WHOISCity" value="<?php if(isset($handle['City'])){ echo $handle['City']; } ?>" class="small_fill"/>
+		<br />
+		
+		<?php 
+		if(IS_INTERNATIONAL)
+		{
+			?>
+			<label><?php echo __('state'); ?></label>
+			<input type="text" name="WHOISState" value="<?php if(isset($handle['Country']) && !isset($array_states[$handle['Country']]) && isset($handle['StateName'])){ echo $handle['StateName']; } ?>" <?php if(isset($handle['Country']) && isset($array_states[$handle['Country']])){ echo "style=\"display:none;\""; } ?> maxlength="100"/>
+			<select name="WHOISStateCode" class="w1" <?php if(!isset($handle['Country']) || !isset($array_states[$handle['Country']])){ echo "style=\"display:none;\""; } ?>>
+				<option value=""><?php echo __('please choose'); ?></option>
+				<?php if(isset($array_states[$handle['Country']])){ foreach($array_states[$handle['Country']] as $key=>$value){ ?>
+					<option value="<?php echo $key; ?>" <?php if($handle['State'] == $key){ echo "selected=\"selected\""; } ?>><?php echo $value; ?></option>
+				<?php } } ?>
+			</select>
+			<br />
+			<?php 
+		}
+		?>
+		
+		<label><?php echo __('country'); ?>:</label>
+		<select name="WHOISCountry" class="w1">
+			<?php foreach($array_country as $k=>$v){ ?>
+				<option value="<?php echo $k; ?>" <?php if(isset($handle['Country']) && $handle['Country'] == $k){ echo "selected=\"selected\""; } ?>><?php echo $v; ?></option>
+			<?php } ?>
+		</select>
+		<br />
+		
+		<br />
+		
+		<label><?php echo __('phonenumber'); ?>:</label>
+		<input type="text" name="WHOISPhoneNumber" value="<?php if(isset($handle['PhoneNumber'])){ echo $handle['PhoneNumber']; } ?>"/>
+		<br />
+		
+		<label><?php echo __('emailaddress'); ?>:</label>
+		<input type="text" name="WHOISEmailAddress" value="<?php if(isset($handle['EmailAddress'])){ echo getFirstMailAddress($handle['EmailAddress']); } ?>"/>
+		<br />
+		
+		<br />
+		
+		<?php
+		// Do we have custom client fields to show?
+		if(!empty($handle_custom_fields))
+		{
+			$this->set('custom_prefix', 'handle');
+			$this->set('custom_client_fields',	$handle_custom_fields);
+			if(isset($handle_custom_fields_values)) { $this->set('custom_client_fields_values', $handle_custom_fields_values); }
+			$this->element('custom_client_fields.phtml');
+		}
+		?>
+
+		<br />
+
+		<?php
+		// Close div when we also show existing debtor handles
+		if(!empty($list_debtor_handles))
+		{
+			?></div><?php
+		}
+		?>
+	</div>
+	<?php } ?>
+
+	<?php
+	// Only show payment options when there is something to pay
+	if(isset($order['AmountIncl']) && $order['AmountIncl'] > 0)
+	{
+		?>
+
+		<h2><?php echo __('choose your payment method'); ?></h2>
+
+		<?php
+		foreach ($array_paymentmethods as $key => $method)
+		{
+			?>
+			<div class="payment_box<?php if (isset($order['PaymentMethod']) && $order['PaymentMethod'] == $key)
+			{
+				echo " active";
+			} ?>">
+				<table cellspacing="0" cellpadding="1" border="0">
+					<tr>
+						<td width="20">
+							<input type="radio" name="PaymentMethod" value="<?php echo $key; ?>" <?php if (isset($order['PaymentMethod']) && $order['PaymentMethod'] == $key)
+							{
+								echo "checked=\"checked\"";
+							} ?> />
+						</td>
+						<td width="60">
+							<?php if ($method['Image'])
+							{ ?>
+								<img src="<?php echo IDEAL_EMAIL . 'images/' . $method['Image']; ?>" alt="<?php echo $method['Title']; ?>"/>
+							<?php }
+							else
+							{
+								echo "&nbsp;";
+							} ?>
+						</td>
+						<td>
+							<?php echo $method['Title']; ?>
+							<?php if ($method['PriceExcl'])
+							{ ?>
+								<br/><span class="small_text"><?php echo $method['FeeDesc']; ?><?php echo w_money(abs((SHOW_VAT_INCLUDED) ? $method['PriceIncl'] : $method['PriceExcl'])); ?></span>
+							<?php }
+							elseif ($method['Percentage'])
+							{ ?>
+								<br/><span class="small_text"><?php echo $method['FeeDesc']; ?> <?php echo abs($method['Percentage']); ?>%</span>
+							<?php } ?>
+
+						</td>
+					</tr>
+				</table>
+
+				<?php
+				if ($method['PaymentType'] == 'auth')
+				{
+					?>
+					<div class="payment_box_details" <?php if (isset($order['PaymentMethod']) && $order['PaymentMethod'] == $key)
+					{
+						echo "style=\"display:block;\"";
+					} ?>>
+						<label><?php echo __('your accountnumber'); ?>:</label>
+						<input type="text" name="AccountNumber" value="<?php if (isset($order['AccountNumber']))
+						{
+							echo $order['AccountNumber'];
+						} ?>"/>
+						<br/>
+
+						<label><?php echo __('bic'); ?>:</label>
+						<input type="text" name="AccountBIC" value="<?php if (isset($order['AccountBIC']))
+						{
+							echo $order['AccountBIC'];
+						} ?>"/>
+						<br/>
+
+						<label><?php echo __('account name'); ?>:</label>
+						<input type="text" name="AccountName" value="<?php if (isset($order['AccountName']))
+						{
+							echo $order['AccountName'];
+						} ?>"/>
+						<br/>
+
+						<label><?php echo __('account city'); ?>:</label>
+						<input type="text" name="AccountCity" value="<?php if (isset($order['AccountCity']))
+						{
+							echo $order['AccountCity'];
+						} ?>"/>
+						<br/>
+						<br/>
+
+						<label class="no_width"><input type="checkbox" name="AuthAgree" value="agree" <?php if (isset($order['AuthAgree']) && $order['AuthAgree'] == 'agree')
+							{
+								echo "checked=\"checked\"";
+							} ?> /> <?php echo sprintf(__('i authorize for the total amount'), COMPANY_NAME); ?></label><br/>
+						<br/>
+					</div>
+					<?php
+
+				}
+				elseif (file_exists(ORDERFORM_TO_PAYMENTDIR . $method['Directory'] . "/payment_provider.php"))
+				{
+					$working_dir = getcwd();
+					chdir(ORDERFORM_TO_PAYMENTDIR);
+					include_once "application/payment_provider_base.php";
+					include_once $method['Directory'] . "/payment_provider.php";
+
+					$tmp_payment_provider = new $method['Class'];
+
+					$choose_payment_method_html = $tmp_payment_provider->choosePaymentMethod();
+
+					chdir($working_dir);
+
+					if ($choose_payment_method_html)
+					{
+						?>
+						<div class="payment_box_details" <?php if (isset($order['PaymentMethod']) && $order['PaymentMethod'] == $key)
+						{
+							echo "style=\"display:block;\"";
+						} ?>>
+							<label><?php if ($method['Extra'])
+								{
+									echo $method['Extra'];
+								} ?></label>
+							<?php echo $choose_payment_method_html; ?>
+							<br/><br/>
+						</div>
+						<?php
+					}
+				}
+				elseif (file_exists(ORDERFORM_TO_PAYMENTDIR . $method['Directory'] . "/DirReq.php"))
+				{ ?>
+					<div class="payment_box_details" <?php if (isset($order['PaymentMethod']) && $order['PaymentMethod'] == $key)
+					{
+						echo "style=\"display:block;\"";
+					} ?>>
+						<label><?php if ($method['Extra'])
+							{
+								echo $method['Extra'];
+							} ?></label>
+						<?php require_once ORDERFORM_TO_PAYMENTDIR . $method['Directory'] . "/DirReq.php"; ?>
+						<br/><br/>
+					</div>
+				<?php } ?>
+			</div>
+			<?php
+		}
+		?>
+
+		<br/>
+		<?php
+	}
+	?>
+
+	<h2><?php echo __('comment'); ?></h2>
+	<br />
+	<textarea class="comment" name="Comment"><?php if(isset($order['Comment'])){ echo $order['Comment']; } ?></textarea>
+	
+	<br /><br />
+	
+	</form>
+	
+	<div class="nav">
+		<p><a id="order_submit_btn" class="button_submit next"><?php echo __('button to overview'); ?></a></p>
+		
+		<p><a href="?step=details&amp;cart=<?php echo ORDERFORM_ID; ?>" class="button_submit back"><?php echo __('button back to cart'); ?></a></p>
+	</div>
+	
+</div>

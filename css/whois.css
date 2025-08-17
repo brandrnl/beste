@@ -1,0 +1,191 @@
+.congrats-message {
+    position: relative;
+    padding-left: 70px; /* Zorg voor ruimte voor het absolute icoon */
+}
+
+.icon-vrij {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 57px;
+    height: 57px;
+}
+
+.congrats-message span {
+    font-weight: normal; /* Standaard tekstgewicht */
+}
+
+.congrats-message strong {
+  font-weight: bold;
+  color: #f33d53;
+}
+
+/* Desktop en grotere schermen */
+.w_result table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.w_result table tr {
+    display: grid;
+    grid-template-columns: 1.5fr 0fr 1fr 0.5fr 0.5fr;
+    align-items: center;
+    padding: 15px;
+    background-color: #ffffff;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.w_result table tr td:first-child {
+    font-size: 21px;
+    text-align: left;
+    color: #21292c;
+}
+
+.w_result table tr td:nth-child(2) {
+    font-size: 16px;
+    text-transform: capitalize;
+    text-align: center;
+    font-weight: 600;
+}
+
+.w_result table tr td:nth-child(3) {
+    font-size: 18px;
+}
+
+.w_result table tr td:nth-child(5) {
+    font-size: 15px;
+    color: #788286;
+}
+
+/* Responsive weergave voor kleinere schermen */
+@media only screen and (max-width: 700px) {
+    .w_result table tr {
+        grid-template-columns: 4fr 1.2fr 1fr 0fr 0.9fr; /* Zet alles onder elkaar op kleine schermen */
+        padding: 5px; /* Verklein de padding */
+		font-size:15px;
+    }
+    
+    .w_result table tr td {
+        margin-bottom: 5px; /* Verklein de marges tussen de rijen */
+        width: 100%;
+        text-align: left; /* Maak alles links uitgelijnd op mobiele apparaten */
+
+    }
+
+    .w_result table tr td:nth-child(4) {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .w_result table tr td:last-child a {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    /* Maak het icoon kleiner op mobiele apparaten */
+    .icon-vrij {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        left: -20px; /* Zorg ervoor dat het icoon goed gepositioneerd blijft */
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* Zorg ervoor dat er genoeg ruimte is voor het icoon */
+    .congrats-message {
+        padding-left: 30px; /* Pas de padding aan voor mobiel */
+        margin-bottom: 5px; /* Verklein de marge onder de congrats-message */
+
+    }
+    
+    /* Maak de congrats tekst en domeinnaam goed zichtbaar */
+    .congrats-message span {
+        font-weight: normal; /* Normale tekstgewicht voor "Gefeliciteerd" en "is nog beschikbaar!" */
+    }
+
+    .congrats-message strong {
+        font-weight: bold; /* Alleen de domeinnaam vetgedrukt */
+    }
+
+    /* Verklein de hoogte van de prijsweergave en andere tekst */
+    .w_result table tr td:nth-child(2), 
+    .w_result table tr td:nth-child(3), 
+    .w_result table tr td:nth-child(5) {
+        font-size: 13px; /* Maak de tekst kleiner op mobiel */
+    }
+
+    /* Verklein de knop "Bestellen" */
+    .w_result table tr td:last-child a {
+        padding: 8px 10px; /* Maak de knop compacter */
+        font-size: 13px;
+    }
+}
+
+
+/***************************************************
+                 Header and Footer
+***************************************************/
+/** Container **/
+.w_form_container{position:relative; display:block; width:100%; max-width:700px; margin:0 auto; font-size:14px; line-height:22px;}
+.w_form_container > *{font-family:Arial;}
+
+/***************************************************
+                WHOIS form - General
+***************************************************/
+/** General **/
+.w_form .align_right{text-align:right;}
+.w_form .footer_excl_incl_vat { color:#666; }
+
+/** Hyperlinks **/
+.w_form a, .w_result a{color:#2084db; text-decoration:underline; cursor:pointer;}
+.w_form a:hover, .w_result a:hover{text-decoration:none;}
+
+/** Error messages **/
+.w_result .domain_error {
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 7px 21px 7px 7px;
+  background-color: #f33d530f;
+  line-height: 18px;
+}
+.w_result .domain_warning {
+    border-radius: 5px;
+    border: 1px solid #dad28d;
+    margin-bottom: 10px;
+    padding: 7px 21px 7px 7px;
+    background-color: #fffbd4;
+    line-height: 18px;
+}
+
+/** Navigation buttons **/
+.w_result .goto_orderform {
+    float: right;
+    display: block;
+}
+
+/** Form fields **/
+.w_form form{display:inline;}
+.w_form input[type=text]{padding:5px; width:250px; border:1px solid #CCCCCC; border-radius:3px; font-size: 15px;}
+.w_form select{width:250px;}
+.w_form textarea.comment{width:100%; height:125px; resize:none; border:1px solid #CCCCCC; border-radius:3px;}
+.w_form input[type="text"]{width:300px;}
+
+/** Results **/
+.w_result table{width:100%;}
+.w_result table th{padding:0 0 10px 5px; text-align:left; font-weight:bold; border:0px;}
+.w_result table td{padding:13px 0 13px 5px; border:0px; vertical-align:top;}
+.w_result table td.domain_td_checked_available{color:green;}
+.w_result table td.domain_td_checked_unavailable{color:red;}
+.w_result table td.domain_td_order{ white-space:nowrap;}
+
+/***************************************************
+              Responsive / mobile
+***************************************************/
+@media only screen and (max-width: 700px) {
+    .w_result table th:last-child { width: auto;}
+}

@@ -1,0 +1,60 @@
+<div class="o_form">
+
+	<br />
+
+	<?php
+	$this->set('progress_step','start');
+	$this->element('progress.phtml');
+	?>
+	
+	<?php
+	$this->element('errors.phtml');
+	?>
+	
+	<form name="OrderForm" method="post" action="?">
+	<input type="hidden" name="step" value="cart" />
+	<input type="hidden" name="cart" value="<?php echo ORDERFORM_ID; ?>" />
+	<input type="hidden" name="action" value="" />
+
+	<h2><?php echo __('choose your product'); ?></h2>
+	<br />
+	
+	<label class="w1"><?php echo __('product'); ?>:</label>
+	<select name="Product" class="w1 <?php if(SHOW_SELECT_PRICE == 'yes'){ echo "show_amount_span"; } ?>">
+		<option value=""><?php echo __('please choose'); ?></option>
+		<?php
+		foreach($list_products as $product_id => $tmp_product){
+			?><option value="<?php echo $tmp_product->ProductCode; ?>" <?php if(isset($element_list['Product']['ProductCode']) && $element_list['Product']['ProductCode'] == $tmp_product->ProductCode){ echo "selected=\"selected\""; } ?>><?php echo $tmp_product->ProductName; ?></option><?php
+		}
+		?>
+	</select>
+	
+	<?php
+	if(SHOW_SELECT_PRICE == 'yes')
+	{
+		foreach($list_products as $product_id => $tmp_product){
+			show_amount_span($tmp_product, 'Product');
+		}
+	}
+	?>
+	
+	<br />
+	
+	<?php 
+	$this->element('billingperiod.phtml'); 
+	?>
+	
+	<br /><br />
+
+	<?php
+	$this->element('options.phtml');
+	?>
+	</form>
+	
+	<div class="nav">
+		<p><a id="order_submit_btn"  class="button_submit next"><?php echo __('button to customerdata'); ?></a></p>
+
+		<p class="footer_excl_incl_vat"><?php echo (SHOW_VAT_INCLUDED) ? __('footer prices are including tax') : ((count($array_taxpercentages) === 0 && count($array_total_taxpercentages) === 0) ? '&nbsp;' : __('footer prices are excluding tax')); ?></p>
+	</div>
+	
+</div>

@@ -1,0 +1,12 @@
+[23-May-2024 01:04:23 UTC] PHP Fatal error:  The file /home/hostion/public_html/bestellen/application/base_functions.php encoded as type [1/81] cannot be decoded by this version of the ionCube Loader.
+ in Unknown on line 0
+[23-May-2024 01:04:35 UTC] PHP Fatal error:  The file /home/hostion/public_html/bestellen/application/base_functions.php encoded as type [1/81] cannot be decoded by this version of the ionCube Loader.
+ in Unknown on line 0
+[23-May-2024 01:04:51 UTC] PHP Fatal error:  The file /home/hostion/public_html/bestellen/application/base_functions.php encoded as type [1/81] cannot be decoded by this version of the ionCube Loader.
+ in Unknown on line 0
+[23-May-2024 01:05:10 UTC] PHP Fatal error:  The file /home/hostion/public_html/bestellen/application/base_functions.php encoded as type [1/81] cannot be decoded by this version of the ionCube Loader.
+ in Unknown on line 0
+[30-May-2024 15:47:24 UTC] PHP Parse error:  Unmatched '}' in /home/hostion/public_html/bestellen/views/whois/result_table.phtml on line 110
+[30-May-2024 15:47:24 UTC] PHP Parse error:  Unmatched '}' in /home/hostion/public_html/bestellen/views/whois/result_table.phtml on line 110
+[30-May-2024 15:47:26 UTC] PHP Parse error:  Unmatched '}' in /home/hostion/public_html/bestellen/views/whois/result_table.phtml on line 110
+[30-May-2024 15:47:35 UTC] PHP Parse error:  Unmatched '}' in /home/hostion/public_html/bestellen/views/whois/result_table.phtml on line 110

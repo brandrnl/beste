@@ -1,0 +1,12 @@
+<?php 
+if(!empty($errors))
+{
+	?>
+	<div class="error_message">
+		<strong><?php echo __('error message'); ?></strong><br />
+		<?php echo implode('<br />',$errors); ?>
+	</div>
+	<br />
+	<?php	
+}
+?>

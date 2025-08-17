@@ -1,0 +1,15 @@
+<?php 
+if(PERIOD_CHOICE == 'yes'){ 
+	global $period_choice_options;
+	?>
+	<br />
+	<label class="w1"><?php echo __('billing period'); ?>:</label>
+	<select name="BillingPeriod" class="w1">
+		<?php foreach($period_choice_options as $period_option){ ?>
+		<option value="<?php echo $period_option; ?>" <?php if(isset($order['PricePeriod']) && $order['PricePeriod'] == $period_option){ echo "selected=\"selected\""; } ?>><?php echo w_period($period_option); ?></option>
+		<?php } ?>
+	</select>
+	<br />
+	<?php 
+} 
+?>

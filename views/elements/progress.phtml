@@ -1,0 +1,156 @@
+    <style>
+        .progresss {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .progresss ol {
+            display: flex;
+            justify-content: space-between;
+            list-style: none;
+            padding: 0;
+            width: 100%;
+            position: relative;
+        }
+        
+        /* Algemene grijze basislijn */
+        .progresss ol::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #eee;
+            z-index: -1;
+        }
+        
+        /* Rode voortgangslijn die stopt in het midden van de laatste actieve stap */
+        .progresss .progress-line {
+            content: "";
+            position: absolute;
+            top: 36px;
+            left: 0;
+            height: 2px;
+            background-color: #f33d53;
+            z-index: 0;
+            transition: width 0.3s ease-in-out;
+        }
+        
+        /* Stap-elementen */
+        .progresss ol li {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Rode lijn stopt correct en loopt niet verder naar inactieve stappen */
+        .progresss ol li.active + li::before {
+            background-color: #eee !important;
+            width: 0;
+        }
+        
+        /* Stijling voor stapcirkels */
+        .progresss ol li .step-number {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #f2f2f2;
+            color: #ccc;
+            border: 2px solid #f2f2f2;
+            margin-bottom: 5px;
+        }
+        
+        /* Voltooide stappen krijgen een rode achtergrond */
+        .progresss ol li.completed .step-number,
+        .progresss ol li.active .step-number {
+            background-color: #f33d53;
+            color: white;
+            border-color: #f33d53;
+        }
+        
+        /* Labels onder de stappen */
+        .progresss ol li .step-label {
+            font-size: 14px;
+            color: #ccc;
+            font-weight: bold;
+        }
+        
+        /* Rode tekst voor actieve of voltooide stappen */
+        .progresss ol li.active .step-label,
+        .progresss ol li.completed .step-label {
+            color: #f33d53;
+        }
+        
+        /* Extra: Zorg dat de eerste stap ook rood wordt als deze actief is */
+        .progresss ol li:first-child.active .step-label {
+            color: #f33d53;
+        }
+    </style>
+</head>
+<body>
+    <div class="progresss">
+        <?php 
+            // Voorbeeld: stel de huidige stap in. Dit komt in de praktijk vaak dynamisch binnen.
+            // Mogelijke waarden: 'start', 'customer', 'overview', 'completed'
+            $progress_step = isset($progress_step) ? $progress_step : 'start';
+        
+            // Bereken de breedte van de rode lijn (tot het midden van de actieve stap)
+            $progress_width = 0;
+            if (isset($progress_step)) {
+                switch ($progress_step) {
+                    case 'start': 
+                        $progress_width = 0; // Geen lijn bij stap 1
+                        break;
+                    case 'customer': 
+                        $progress_width = 37.5; // Lijn tot het midden van stap 2
+                        break;
+                    case 'overview': 
+                        $progress_width = 62.5; // Lijn tot het midden van stap 3
+                        break;
+                    case 'completed': 
+                        $progress_width = 87.5; // Lijn tot het midden van stap 4
+                        break;
+                }
+            }
+        ?>
+        
+        <!-- De rode lijn wordt alleen getoond vanaf stap 2 -->
+        <?php if ($progress_step !== 'start'): ?>
+            <div class="progress-line" style="width: <?php echo $progress_width; ?>%;"></div>
+        <?php endif; ?>
+        
+        <ol>
+            <li class="<?php echo (isset($progress_step) && in_array($progress_step, array('start','customer','overview','completed'))) ? 'completed active' : ''; ?>">
+                <span class="step-number">1</span>
+                <span class="step-label">Domein kiezen</span>
+            </li>
+            
+            <li class="<?php echo (isset($progress_step) && in_array($progress_step, array('customer','overview','completed'))) ? 'active' : ''; ?>">
+                <span class="step-number">2</span>
+                <span class="step-label">Gegevens</span>
+            </li>
+            
+            <li class="<?php echo (isset($progress_step) && in_array($progress_step, array('overview','completed'))) ? 'active' : ''; ?>">
+                <span class="step-number">3</span>
+                <span class="step-label">Overzicht</span>
+            </li>
+            
+            <li class="<?php echo (isset($progress_step) && $progress_step == 'completed') ? 'active' : ''; ?>">
+                <span class="step-number">4</span>
+                <span class="step-label">Afronden</span>
+            </li>
+        </ol>
+    </div>

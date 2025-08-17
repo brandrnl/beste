@@ -1,0 +1,81 @@
+<div class="o_form">
+
+	<br />
+
+	<?php
+	$this->set('progress_step','start');
+	$this->element('progress.phtml');
+	?>
+	
+	<?php
+	$this->element('errors.phtml');
+	?>
+	
+	<form name="OrderForm" method="post" action="?">
+	<input type="hidden" name="step" value="cart" />
+	<input type="hidden" name="cart" value="<?php echo ORDERFORM_ID; ?>" />
+	<input type="hidden" name="action" value="" />
+
+	<h2><?php echo __('domains'); ?></h2>
+
+	<?php $this->element('domain_table.phtml'); ?>
+
+	<br /><br />
+	
+	<h2><?php echo __('hosting'); ?></h2>
+	<br />
+	
+	<?php if(HOSTING_AVAILABLE == 'yes'){ ?><label class="no_width"><input name="HostingType" value="new" type="radio" <?php if(!isset($order['HostingType']) || $order['HostingType'] == 'new'){ echo "checked=\"checked\""; } ?> /> <?php echo __('order a hosting account'); ?></label><br /><?php } ?>
+	<label class="no_width"><input name="HostingType" value="existing" type="radio" <?php if(isset($order['HostingType']) && $order['HostingType'] == 'existing'){ echo "checked=\"checked\""; } ?>/> <?php echo sprintf(__('i already have a hosting account'),COMPANY_NAME); ?></label><br />
+	<label class="no_width"><input name="HostingType" value="none" type="radio" <?php if((isset($order['HostingType']) && $order['HostingType'] == 'none') || (HOSTING_AVAILABLE == 'no' && !isset($order['HostingType']))){ echo "checked=\"checked\""; } ?>/> <?php echo __('order domains only'); ?></label><br />
+	
+	<br />
+	
+	<?php if(HOSTING_AVAILABLE == 'yes'){ ?>			
+	<div id="HostingTypeDiv_new" <?php if(isset($order['HostingType']) && $order['HostingType'] != 'new'){ echo "style=\"display:none\""; } ?>>
+		<?php 
+		$this->element('hosting_new.phtml','hosting'); 
+		?>
+	</div>
+	<?php } ?>
+	
+	<div id="HostingTypeDiv_existing" <?php if(!isset($order['HostingType']) || $order['HostingType'] != 'existing'){ echo "style=\"display:none\""; } ?>>
+		<label><?php echo __('current domain'); ?></label>
+		<input type="text" name="Domain" value="<?php if(isset($order['Domain'])){ echo $order['Domain']; } ?>"/>
+		<br /><br />
+	</div>
+	<?php if(DOMAIN_OWN_NAMESERVERS == 'yes'){ ?>
+	<div id="HostingTypeDiv_none" <?php if((!isset($order['HostingType']) && HOSTING_AVAILABLE == 'yes') || (isset($order['HostingType']) && $order['HostingType'] != 'none')){ echo "style=\"display:none\""; } ?>>
+		<label class="no_width"><input name="CustomNameServers" value="yes" type="checkbox" <?php if(isset($order['CustomNameServers']) && $order['CustomNameServers'] == 'yes'){ echo "checked=\"checked\""; } ?> /> <?php echo __('use own nameservers'); ?></label><br />
+		<br />
+		<div id="CustomNameServersDiv" <?php if(!isset($order['CustomNameServers']) || $order['CustomNameServers'] != 'yes'){ echo "style=\"display:none\""; } ?>>
+			<label><?php echo __('nameserver 1'); ?></label>
+			<input type="text" name="NS1" value="<?php if(isset($order['NS1'])){ echo $order['NS1']; } ?>"/>
+			<br />
+			<label><?php echo __('nameserver 2'); ?></label>
+			<input type="text" name="NS2" value="<?php if(isset($order['NS2'])){ echo $order['NS2']; } ?>"/>
+			<br />
+			<label><?php echo __('nameserver 3'); ?></label>
+			<input type="text" name="NS3" value="<?php if(isset($order['NS3'])){ echo $order['NS3']; } ?>"/>
+		</div>
+	</div>
+	<?php } ?>
+
+	<?php
+	$this->element('billingperiod.phtml');
+	?>
+
+	<br /><br />
+	
+	<?php
+	$this->element('options.phtml');
+	?>
+	</form>
+	
+	<div class="nav">
+		<p><a id="order_submit_btn"  class="button_submit"><?php echo __('button to customerdata'); ?></a></p>
+
+		<p class="footer_excl_incl_vat"><?php echo (SHOW_VAT_INCLUDED) ? __('footer prices are including tax') : ((count($array_taxpercentages) === 0 && count($array_total_taxpercentages) === 0) ? '&nbsp;' : __('footer prices are excluding tax')); ?></p>
+	</div>
+	
+</div>

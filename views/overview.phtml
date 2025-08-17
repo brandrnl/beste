@@ -1,0 +1,223 @@
+<div class="o_form">
+
+	<br />
+
+	<?php
+	$this->set('progress_step','overview');
+	$this->element('progress.phtml');
+	?>
+	
+	<?php
+	$this->element('errors.phtml');
+	?>
+	
+	<form name="OrderForm" method="post" action="?">
+	<input type="hidden" name="step" value="overview" />
+	<input type="hidden" name="cart" value="<?php echo ORDERFORM_ID; ?>" />
+	<input type="hidden" name="action" value="" />
+	
+	<h2><?php echo __('summary of your order'); ?></h2>
+	<br />	
+
+	<table class="cart" cellpadding="0" cellspacing="0">
+		<tr>
+			<?php if($order['highestElementNumber'] > 1){ ?><th width="60"><?php echo __('overviewtable number'); ?></th><?php } ?>
+			<th><?php echo __('overviewtable description'); ?></th>
+			<th width="100"><?php echo __('overviewtable period'); ?></th>
+			<th colspan="2" class="textright"><span class="mobile_hide_text"><?php echo (SHOW_VAT_INCLUDED) ? __('overviewtable amount incl') : ((count($array_taxpercentages) === 0 && count($array_total_taxpercentages) === 0) ? __('overviewtable amount') : __('overviewtable amount excl')); ?></span></th>
+		</tr>
+		<?php
+		foreach($order['elements'] as $k=>$element){
+			// Compact view (for discount and transaction costs)
+			if(isset($element['isCompactView']) && $element['isCompactView'] == true)
+			{
+				?>
+				<tr class="italic">
+					<?php if($order['highestElementNumber'] > 1){ ?><td>&nbsp;</td><?php } ?>
+					<td><?php echo nl2br($element['Description']); ?><br /></td>
+					<td>&nbsp;</td>
+					<td width="30" class="textright"><?php echo w_currency('left'); ?></td>
+					<td width="90" class="textright"><?php echo w_money((SHOW_VAT_INCLUDED) ? $element['AmountIncl'] : $element['AmountExcl'], 'right'); ?></td>
+				</tr>
+				<?php 
+			}
+			// Only description
+			elseif(($element['PriceExcl'] === '' || $element['PriceExcl'] == 0) && !$element['ProductCode'])
+			{
+				?>
+				<tr>
+					<?php if($order['highestElementNumber'] > 1){ ?><td>&nbsp;</td><?php } ?>
+					<td><?php echo nl2br($element['Description']); ?></td>
+					<td colspan="3">&nbsp;</td>
+				</tr>
+				<?php 
+				
+			}
+			else
+			{ 
+				?>
+				<tr>
+					<?php if($order['highestElementNumber'] > 1){ ?><td><?php echo $element['Number']; ?></td><?php } ?>
+					<td><?php echo nl2br($element['Description']); ?></td>
+					<td><?php echo w_period($element['Periods'], $element['Periodic']); ?></td>
+					<td width="30" class="textright"><?php echo w_currency('left'); ?></td>
+					<td width="90" class="textright"><?php echo w_money((SHOW_VAT_INCLUDED) ? $element['AmountIncl'] : $element['AmountExcl'], 'right'); ?></td>
+				</tr>
+				<?php 
+			}
+			
+			// If element has discount percentage
+			if($element['DiscountPercentage'] > 0)
+			{
+				?>
+				<tr class="italic">
+					<?php if($order['highestElementNumber'] > 1){ ?><td>&nbsp;</td><?php } ?>
+					<td><?php echo $element['DiscountDescription']; ?></td>
+					<td>&nbsp;</td>
+					<td width="30" class="textright"><?php echo w_currency('left'); ?></td>
+					<td width="90" class="textright"><?php echo w_money((SHOW_VAT_INCLUDED) ? $element['DiscountAmountIncl'] : $element['DiscountAmountExcl'], 'right'); ?></td>
+				</tr>
+				<?php 
+			}
+		
+		} 
+		
+		?>
+	</table>
+	
+	<?php if(DISCOUNTCOUPON_VISIBLE == 'yes'){ ?>
+		<?php if(!isset($order['Coupon']) || !$order['Coupon']){ ?>
+			<a class="discount_coupon_add"><?php echo __('enter discount coupon'); ?></a>
+		<?php } ?>
+		
+		<div id="discountDiv" <?php if(!isset($order['Coupon']) || !$order['Coupon']){ echo "style=\"display:none\""; } ?>>
+			<br /><br />
+			<label><?php echo __('discount coupon'); ?>:</label>
+			<input type="text" name="Coupon" value="<?php if(isset($order['Coupon'])){ echo $order['Coupon']; } ?>"/>
+			<a class="discount_coupon_confirm"><?php echo __('discount check coupon'); ?></a>
+		</div>
+	<?php } ?>	
+	<table class="cart" cellpadding="0" cellspacing="0" style="width:auto;float:right;">
+		
+		<?php if(isset($order['Discount']) && $order['Discount'] > 0){ ?>
+		<tr>
+			<td width="110" class="textright noborder"><?php echo sprintf(__('percentage discount'),$order['Discount']); ?></td>
+			<td width="30" class="textright noborder"><?php echo w_currency('left'); ?></td>
+			<td width="90" class="textright noborder"><?php echo w_money((SHOW_VAT_INCLUDED) ? $order['DiscountAmountIncl'] : $order['DiscountAmountExcl'], 'right'); ?></td>
+		</tr>
+		<?php } ?>
+		<?php 
+		if(count($array_taxpercentages) > 0 || count($array_total_taxpercentages) > 0)
+		{  
+			?>
+			<tr>
+				<td width="110" class="textright noborder"><?php echo __('subtotal'); ?></td>
+				<td width="30" class="textright noborder"><?php echo w_currency('left'); ?></td>
+				<td width="90" class="textright noborder"><?php echo w_money($order['AmountExcl'], 'right'); ?></td>
+			</tr>
+			<?php
+		}
+		
+		asort($array_taxpercentages); 
+		foreach($array_taxpercentages as $key=>$value)
+		{
+			if(isset($order['UsedTaxRates'][(string)(float)$key]['AmountTax']))
+			{
+				?>
+				<tr>
+					<td class="textright"><?php echo (isset($array_taxpercentages_info[(string)(float)$key]['label'])) ? $array_taxpercentages_info[(string)(float)$key]['label'] : ''; ?></td>
+					<td width="30" class="textright"><?php echo w_currency('left'); ?></td>
+					<td width="90" class="textright"><?php echo w_money($order['UsedTaxRates'][(string)(float)$key]['AmountTax'], 'right'); ?></td>
+				</tr>
+				<?php
+			}
+		}
+		
+		if(isset($order['TaxRateLabel']) && $order['TaxRateLabel'])
+		{
+			?>
+			<tr>
+				<td class="textright"><?php echo $order['TaxRateLabel']; ?></td>
+				<td width="30" class="textright"><?php echo w_currency('left'); ?></td>
+				<td width="90" class="textright"><?php echo w_money($order['TaxRateAmount'], 'right'); ?></td>
+			</tr>
+			<?php
+		}
+		?>
+		<tr>
+			<td class="textright"><?php if(count($array_taxpercentages) === 0 && count($array_total_taxpercentages) === 0){  echo __('total'); }else{ echo __('total incl'); } ?></td>
+			<td width="30" class="textright"><?php echo w_currency('left'); ?></td>
+			<td width="90" class="textright"><?php echo w_money($order['AmountIncl'], 'right'); ?></td>
+		</tr>
+	</table>
+	
+	<br clear="both" />
+	<br /><br />
+	
+	<h2><?php echo __('your customerdata'); ?></h2>
+	<br />	
+	
+	<?php $col_width = ($customer_data['CustomInvoiceAddress'] == 'yes') ? 33 : 50;	?>
+	
+	<div class="overview_customer customer_data" style="width:<?php echo $col_width; ?>%;float:left;">
+		<strong><?php echo __('your customerdata'); ?></strong><br />
+		<?php if($customer_data['CompanyName']){ echo $customer_data['CompanyName']."<br />"; } ?>
+		<?php echo \Setting_Model::getGenderTranslation($customer_data['Sex']) . ' ' . $customer_data['Initials'].' '.$customer_data['SurName']; ?><br />
+		<?php echo $customer_data['Address']; ?><br />
+		<?php if($customer_data['Address2']){ echo $customer_data['Address2']."<br />"; } ?>
+		<?php echo $customer_data['ZipCode']; ?> <?php echo $customer_data['City']; ?><br />
+		<?php if($customer_data['StateName']){ echo $customer_data['StateName']."<br />"; } ?>
+		<?php echo $array_country[$customer_data['Country']]; ?><br />
+		<br />
+		<?php if($customer_data['PhoneNumber']){ echo $customer_data['PhoneNumber']."<br />"; } ?>
+		<?php if($customer_data['EmailAddress']){ echo check_email_address($customer_data['EmailAddress'], 'convert', ', ')."<br />"; } ?>
+	</div>
+	<?php if($customer_data['CustomInvoiceAddress'] == 'yes'){ ?>
+	<div class="overview_customer invoice_data" style="width:<?php echo $col_width; ?>%;float:left;">
+		<strong><?php echo __('your invoiceaddress'); ?></strong><br />
+		<?php 
+		if(isset($customer_data['InvoiceCompanyName']) && $customer_data['InvoiceCompanyName'])
+		{
+			echo $customer_data['InvoiceCompanyName']."<br />";
+		}
+		?>
+		
+        <?php echo \Setting_Model::getGenderTranslation($customer_data['InvoiceSex']) . ' ' . $customer_data['InvoiceInitials'].' '.$customer_data['InvoiceSurName']; ?><br />
+		<?php echo $customer_data['InvoiceAddress']; ?><br />
+		<?php if($customer_data['InvoiceAddress2']){ echo $customer_data['InvoiceAddress2']."<br />"; } ?>
+		<?php echo $customer_data['InvoiceZipCode']; ?> <?php echo $customer_data['InvoiceCity']; ?><br />
+		<?php if($customer_data['InvoiceStateName']){ echo $customer_data['InvoiceStateName']."<br />"; } ?>
+		<?php echo $array_country[$customer_data['InvoiceCountry']]; ?><br />
+		<br />
+		<?php if($customer_data['InvoiceEmailAddress']){ echo check_email_address($customer_data['InvoiceEmailAddress'],'convert', ', ') . "<br />"; } ?>
+	</div>
+	<?php } ?>
+	<?php if(isset($order['PaymentMethod']) && $order['PaymentMethod'] != '' && $order['AmountIncl'] > 0){ ?>
+	<div class="overview_customer payment_data" style="width:<?php echo $col_width; ?>%;float:left;">
+		<strong><?php echo __('payment method'); ?></strong><br />
+		<?php echo $array_paymentmethods[$order['PaymentMethod']]['Title']; ?><br />
+		<?php if($order['PaymentMethod'] == 'auth'){ ?>
+			<?php if(isset($order['AccountNumber']) && $order['AccountNumber']){ echo $order['AccountNumber']; } ?><br />
+			<?php if(isset($order['AccountBIC']) && $order['AccountBIC']){ echo $order['AccountBIC']; } ?><br />
+			<?php if(isset($order['AccountName']) && $order['AccountName']){ echo $order['AccountName']; } ?><br />
+			<?php if(isset($order['AccountCity']) && $order['AccountCity']){ echo $order['AccountCity']; } ?><br />
+		<?php } ?>
+	</div>
+	<?php } ?>
+	<br clear="both"/><br />
+	
+	<br />
+	
+	<strong><?php echo __('terms and conditions'); ?></strong><br />
+	<label class="no_width"><input type="checkbox" name="agree" value="yes" <?php if(isset($order['agree']) && $order['agree'] == 'yes'){ echo "checked=\"checked\""; } ?>/> <?php echo sprintf(__('i agree with the terms and conditions'), (COMPANY_AV_PDF) ? '<a href="'.COMPANY_AV_PDF.'" target="_blank" title="'.__('download terms and conditions').'">'.strtolower(__('terms and conditions')).'</a>' : strtolower(__('terms and conditions'))); ?></label>
+		
+	<br /><br />
+	
+	</form>
+	
+	<div class="nav">
+		<p><a id="order_submit_btn" class="button_submit next"><?php echo __('button to completed'); ?></a></p>
+		
+		<p><a href="?step=customer&amp;cart=<?php echo ORDERFORM_ID; ?>" class="button_submit back"><?php echo __('button back to customerdata'); ?></a></p>
+	</div>
+</div>

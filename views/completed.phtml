@@ -1,0 +1,38 @@
+<div class="o_form">
+
+	<br />
+
+	<?php
+	$this->set('progress_step','completed');
+	$this->element('progress.phtml');
+	?>
+	
+	<?php
+	$this->element('errors.phtml');
+	?>
+	
+	<h2><?php echo __('thanks for your order'); ?></h2>
+	
+	<p>
+		<?php echo __('we have successfully received your order'); ?>
+		<?php if(ORDERMAIL_SENT == 'yes'){ ?><br /><?php echo __('for confirmation, we send an e-mail containing a summary of your order'); ?><?php } ?>
+	</p>
+	
+	<?php if(isset($online_payment_link) && $online_payment_link){ ?>
+	<p>
+		<br />
+		<strong><?php echo __('online payment'); ?></strong><br />
+		<?php echo sprintf(__('you have chosen to pay online via'),$online_payment_method['Title']); ?><br />
+		<br />
+		<a href="<?php echo $online_payment_link; ?>" class="button_submit" target="_top"><?php echo __('click here to pay'); ?></a><br />
+		<br />
+	</p>
+	<?php } ?>
+	
+	<p>
+		<?php echo __('if you have any questions, please contact us'); ?><br />
+		<br />
+		<?php echo COMPANY_NAME ?><br />
+	</p>	
+	
+</div>

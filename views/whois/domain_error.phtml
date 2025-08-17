@@ -1,0 +1,16 @@
+<?php
+// Should we load domain form above whois results?
+if(!isset($hide_domain_form) || $hide_domain_form !== true)
+{
+	$this->element('domain_form.phtml');
+	echo "<br /><br />";
+}
+?>
+
+<div class="w_result">
+
+	<div class="domain_error">
+		<?php echo $domain_error; ?>
+	</div>
+	
+</div>

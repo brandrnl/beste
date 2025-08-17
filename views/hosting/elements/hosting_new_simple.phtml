@@ -1,0 +1,20 @@
+<div class="hosting_new_simple">
+	<label class="w1"><?php echo __('hosting package'); ?>:</label>
+	<select name="Hosting" class="w1 <?php if(SHOW_SELECT_PRICE == 'yes'){ echo "show_amount_span"; } ?>">
+		<option value=""><?php echo __('please choose'); ?></option>
+		<?php
+		foreach($hosting_products as $product_id => $tmp_product){
+			?><option value="<?php echo $tmp_product->ProductCode; ?>" <?php if(isset($hosting['ProductCode']) && $hosting['ProductCode'] == $tmp_product->ProductCode){ echo "selected=\"selected\""; } ?>><?php echo $tmp_product->ProductName; ?></option><?php
+		}
+		?>
+	</select>
+	
+	<?php
+	if(SHOW_SELECT_PRICE == 'yes')
+	{
+		foreach($hosting_products as $product_id => $tmp_product){
+			show_amount_span($tmp_product, 'Hosting');
+		}
+	}
+	?>
+</div>
