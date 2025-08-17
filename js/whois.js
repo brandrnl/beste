@@ -1,188 +1,231 @@
 //Prevent conflict with other libraries
-var whois_js_loaded = false;
+jQuery.noConflict();
 
 jQuery(document).ready(function(){
-	
-	if(whois_js_loaded){
-		return;
-	}
-	
-	whois_js_loaded = true;
-	
-	jQuery('.w_form form').submit(function() {
-		jQuery(this).find('.wf_form_submit').click();
+	jQuery('.o_form #order_submit_btn').click(function(){
+		jQuery('form[name="OrderForm"]').submit();
 		return false;	
 	});
 	
-	jQuery('.w_form .wf_form_submit').click(function(){
-		
-		var whois_form_element = jQuery(this).parents('form');
-
-		if(jQuery(whois_form_element).find('input[name="result"]').val() == 'extern'){
-			document.location = jQuery(whois_form_element).find('input[name="newpage"]').val() + '?domain=' + encodeURIComponent(jQuery(whois_form_element).find('input[name="whois_domain"]').val());
-		}else{
-
-			jQuery.post(jQuery(whois_form_element).attr('action'), {whois_domain: jQuery(whois_form_element).find('input[name="whois_domain"]').val(), result_type: jQuery(whois_form_element).find('input[name="result"]').val() }, function(responseText, textStatus, XMLHttpRequest) {
+	jQuery('.o_form .wf_form_submit').click(function(){
+		// Update action and post form
+		jQuery('input[name="action"]').val('check_domain=' + jQuery('input[name="check_domain"]').val());
+		jQuery('form[name="OrderForm"]').submit();	
+	});
 	
-				if(jQuery(whois_form_element).find('input[name="result"]').val() == 'inline'){
+	jQuery('.o_form input[name="HostingType"]').change(function(){
+		switch(jQuery(this).val()){
+			case 'new':
+				jQuery('.o_form #HostingTypeDiv_new').show();
+				jQuery('.o_form #HostingTypeDiv_existing').hide();
+				jQuery('.o_form #HostingTypeDiv_none').hide();
+				break;
+			case 'existing':
+				jQuery('.o_form #HostingTypeDiv_new').hide();
+				jQuery('.o_form #HostingTypeDiv_existing').show();
+				jQuery('.o_form #HostingTypeDiv_none').hide();
+				break;
+			default: 
+				jQuery('.o_form #HostingTypeDiv_new').hide();
+				jQuery('.o_form #HostingTypeDiv_existing').hide();
+				jQuery('.o_form #HostingTypeDiv_none').show();
+				break;
+		}
+	});
 	
-					jQuery('div.w_result').after(responseText).remove();
-					
-					// WordPress iframe wrapper
-                    postIframeHeight();
-				}else{
-					document.location = jQuery(whois_form_element).find('input[name="newpage"]').val();
-				}
+	jQuery('.o_form input[name="DomainType"]').change(function(){
+		switch(jQuery(this).val()){
+			case 'new':
+				jQuery('.o_form #DomainTypeDiv_new').show();
+				jQuery('.o_form #DomainTypeDiv_existing').hide();
 				
-			});		
+				// If there is a choice for default domain, show
+				jQuery('.o_form .hosting_default_domain').show();
+				break;
+			case 'existing':
+				jQuery('.o_form #DomainTypeDiv_new').hide();
+				jQuery('.o_form #DomainTypeDiv_existing').show();
+				
+				// If there is a choice for default domain, hide
+				jQuery('.o_form .hosting_default_domain').hide();
+				break;
+		}
+	});
+	
+	jQuery('.package_box').click(function(){
+
+		if(jQuery(this).find('input[type="radio"]').prop('checked')){
+			// Already checked
+			return true;
+		}
+
+        // Check radiobutton and call click event for package_box active selection
+		jQuery(this).find('input[type="radio"]').prop('checked',true).click();
+	
+	});
+
+	jQuery('input[name="Hosting"], input[name="HostingResponsive"]').click(function(){
+
+        // Check if we are in a package_box
+        if(jQuery(this).parents('.package_box').html() == undefined)
+        {
+            return;
+        }
+
+		// Remove all active class
+		jQuery('.package_box').removeClass('active');
+
+		// Check this one
+		jQuery(this).parents('.package_box').addClass('active');
+
+	});
+
+	// Custom nameservers
+	jQuery('.o_form input[name="CustomNameServers"]').change(function(){
+		if(jQuery(this).prop('checked')){
+			jQuery('#CustomNameServersDiv').show();
+		}else{
+			jQuery('#CustomNameServersDiv').hide();
+		}
+	});
+	
+	// Show price for select fields
+	jQuery('select.show_amount_span').change(function(){
+		showAmountSpan(jQuery(this).attr('name'));
+	});
+	jQuery('select.show_amount_span').each(function(){
+		showAmountSpan(jQuery(this).attr('name'));
+	});
+	
+	// Customer data
+	jQuery('.o_form input[name="ExistingCustomer"]').change(function(){
+		if(jQuery(this).prop('checked')){
+			jQuery('#NewCustomerDiv').hide();
+			jQuery('#ExistingCustomerDiv').show();
+			
+			// Hide custom invoice address by default
+			jQuery('.o_form input[name="CustomInvoiceAddress"]').prop('checked',false).parents('label').hide();
+			jQuery('#CustomInvoiceAddressDiv').hide();
+		}else{
+			jQuery('#NewCustomerDiv').show();
+			jQuery('#ExistingCustomerDiv').hide();
+			
+			// Show option for custom invoice address
+			jQuery('.o_form input[name="CustomInvoiceAddress"]').parents('label').show();
+		}
+	});
+	
+	jQuery('.CustomerForm input[name="CompanyName"]').keyup(function(){
+		if(jQuery(this).val()){
+			jQuery('#CustomerCompanyDiv').slideDown();
+		}else{
+			jQuery('#CustomerCompanyDiv').slideUp();
+		}
+	});
+	
+	jQuery('.o_form input[name="CustomInvoiceAddress"]').change(function(){
+		if(jQuery(this).prop('checked')){
+			jQuery('#CustomInvoiceAddressDiv').show();
+		}else{
+			jQuery('#CustomInvoiceAddressDiv').hide();
+		}
+	});
+	
+	jQuery('.o_form select[name="Country"], .o_form select[name="InvoiceCountry"], .CustomerForm select[name="WHOISCountry"]').change(function(){
+		var PrefixName = jQuery(this).attr('name').replace('Country','');
+		getCountryStates(jQuery(this).val(), PrefixName, jQuery('.o_form input[name="'+PrefixName+'State"]').val());
+	});
+	
+	// Custom WHOIS
+	jQuery('.o_form input[name="CustomWHOIS"]').change(function(){
+		if(jQuery(this).prop('checked')){
+			jQuery('#CustomWHOISDiv').show();
+		}else{
+			jQuery('#CustomWHOISDiv').hide();
+		}
+	});
+	
+	jQuery('.CustomerForm input[name="WHOISCompanyName"]').keyup(function(){
+		if(jQuery(this).val()){
+			jQuery('#WHOISCompanyDiv').slideDown();
+		}else{
+			jQuery('#WHOISCompanyDiv').slideUp();
 		}
 	});
 
+    // If WHOISHandle select exists, get details from selected handle
+    if(jQuery('.CustomerForm select[name="WHOISHandle"] option:checked').val() != undefined && jQuery('.CustomerForm select[name="WHOISHandle"] option:checked').val() != '')
+    {
+        getHandleDetails(jQuery('.CustomerForm select[name="WHOISHandle"] option:checked').val());
+    }
+
+    // On change of WHOISHandle, we want tho hide/show div and retrieve details from the handle
+    jQuery('.CustomerForm select[name="WHOISHandle"]').change(function(){
+        if(jQuery('.CustomerForm select[name="WHOISHandle"] option:checked').val() == '')
+        {
+            jQuery('#CustomWHOISDivNew').show();
+            jQuery('#CustomWHOISDivExisting').html('').hide();
+        }
+        else
+        {
+            getHandleDetails(jQuery('.CustomerForm select[name="WHOISHandle"] option:checked').val());
+        }
+    });
+	
+	// Payment methods
+	jQuery('.payment_box').click(function(){
+		
+		if(jQuery(this).find('input[name="PaymentMethod"]').prop('checked')){
+			// Already checked
+			return true;
+		}
+		
+		jQuery(this).find('input[name="PaymentMethod"]').click();
+	
+	});
+	
+	jQuery('input[name="PaymentMethod"]').click(function(){
+	
+		// Remove all active class
+		jQuery('.payment_box_details').hide();
+		jQuery('.payment_box').removeClass('active');
+		
+		// Check this one
+		jQuery(this).prop('checked', true);
+		jQuery(this).parents('.payment_box').addClass('active');
+		
+		jQuery(this).parents('.payment_box').find('.payment_box_details').show();
+		
+	});
+	
+	jQuery('.check_existing_customer_link').click(function(){
+		jQuery('input[name="action"]').val('check_existing_customer');
+		jQuery('form[name="OrderForm"]').submit();	
+	});
+	
+	// Discount coupon
+	jQuery('.discount_coupon_add').click(function(){
+		jQuery('#discountDiv').show();
+		jQuery(this).hide();
+	});
+	jQuery('.discount_coupon_confirm').click(function(){
+		jQuery('input[name=action]').val('discount'); 
+		jQuery('form[name=OrderForm]').submit();
+	});
+	
+	// WordPress iframe wrapper
+	jQuery('body').click(function(){
+		setTimeout(function(){ postIframeHeight(); }, 100);
+	});
+    jQuery(window).resize(function(){
+        setTimeout(function(){ postIframeHeight(); }, 100);
+    });
+
+	// Onload
+	setTimeout(function(){ postIframeHeight(); }, 100);
     // On load, send information to parent frame
     window.parent.postMessage("iframe_reload", "*");
-	
 });
-jQuery(document).ready(function(){
-    // Haal de domeinnaam op uit de URL (queryparameter)
-    var urlParams = new URLSearchParams(window.location.search);
-    var domainParam = urlParams.get('domain'); // Haal de waarde van 'domain' op uit de URL
-    
-    // Als er een domeinnaam is opgegeven in de URL, stel deze in het inputveld in en sla op in localStorage
-    if (domainParam) {
-        jQuery('input[name="whois_domain"]').val(domainParam);
-        localStorage.setItem('lastSearchedDomain', domainParam); // Sla de laatste domeinnaam op
-        // Trigger direct een controle alsof de gebruiker het formulier heeft ingediend
-        jQuery('.wf_form_submit').trigger('click');
-    } else {
-        // Als er geen domein in de URL staat, controleer localStorage
-        var lastDomain = localStorage.getItem('lastSearchedDomain');
-        if (lastDomain) {
-            jQuery('input[name="whois_domain"]').val(lastDomain);
-            // Trigger de controle voor de opgeslagen domeinnaam
-            jQuery('.wf_form_submit').trigger('click');
-        }
-    }
-
-    // Als een nieuwe zoekopdracht wordt ingediend, overschrijf de opgeslagen domeinnaam
-    jQuery('.wf_form_submit').click(function() {
-        var newDomain = jQuery('input[name="whois_domain"]').val();
-        if (newDomain) {
-            localStorage.setItem('lastSearchedDomain', newDomain); // Sla de nieuwe domeinnaam op
-        }
-    });
-
-    // Verwijder de domeinnaam uit localStorage als het uit de winkelwagen wordt verwijderd
-    jQuery('.remove_link').click(function() {
-        localStorage.removeItem('lastSearchedDomain');
-    });
-});
-
-
-function w_check_next_domain() {
-    if (jQuery('.w_result table tr.domain_tr td.domain_td_unchecked:visible').length == 0) {
-        return true;
-    }
-
-    var ToCheck = jQuery('.w_result table tr.domain_tr td.domain_td_unchecked:visible').first();
-    var sld = jQuery('input[name="whois_domain"]').val();  // Haal de juiste domeinnaam op
-
-    jQuery.post(jQuery(ToCheck).parents('form').attr('action'), { check_domain: jQuery(ToCheck).parent().attr('id').replace('domain_tr_', '').replace('_', '.') }, function (response, textStatus, XMLHttpRequest) {
-
-        jQuery(ToCheck).removeClass('domain_td_unchecked');
-
-        switch (response.status) {
-            case 'available':
-                jQuery(ToCheck).addClass('domain_td_checked_available');
-                jQuery(ToCheck).parent().addClass('domain_td_checked_available');
-
-                if (jQuery(ToCheck).parent().attr('id').includes('_nl')) {
-                    var fullDomain = sld + ".nl";  // Manually constructing the full domain name
-
-     // Add the congratulations message with the full domain name and icon
-    // Haal de domeinnaam op uit het inputveld waar de gebruiker de domeinnaam invoert
-var sld = jQuery('input[name="whois_domain"]').val();  // Domeinnaam (SLD)
-var tld = jQuery(ToCheck).parent().attr('id').replace('domain_tr_', ''); // Extensie (TLD)
-
-// Voeg het bericht toe met de juiste opmaak
-jQuery(ToCheck).parent().find('td:first-child').html(
-
-);
-
-}
-                break;
-
-            case 'unavailable':
-                jQuery(ToCheck).addClass('domain_td_checked_unavailable');
-                jQuery(ToCheck).parent().addClass('domain_td_checked_unavailable');
-                break;
-
-            case 'error':
-                jQuery(ToCheck).addClass('domain_td_checked_error');
-                jQuery(ToCheck).parent().addClass('domain_td_checked_unavailable');
-                break;
-        }
-
-        jQuery(ToCheck).html('<span>' + response.text + '</span>');
-
-        jQuery(ToCheck).parent().find('.domain_td_order').html(response.link);
-        jQuery(ToCheck).parent().find('.domain_td_order').find('a.order_link').bind('click', function (event) { w_order_domain(jQuery(this)); });
-        jQuery(ToCheck).parent().find('.domain_td_order').find('a.remove_link').bind('click', function (event) { w_remove_domain(jQuery(this)); });
-
-        if (jQuery('.w_result table tr.domain_tr td.domain_td_unchecked:visible').length > 0) {
-            w_check_next_domain();
-        }
-
-        postIframeHeight();
-
-    }, 'json');
-}
-
-
-
-
-function w_show_other_tlds(obj){
-	jQuery('.show_other_tlds').hide();
-	jQuery('.w_result table tbody.domain_tbody_other').show();
-	w_check_next_domain();
-}
-
-function w_order_domain(obj){
-	var ToOrder = jQuery(obj).parents('tr.domain_tr').attr('id').replace('domain_tr_','').replace('_','.');
-	
-	jQuery.post(jQuery(obj).parents('form').attr('action'), {order_domain: ToOrder}, function(response, textStatus, XMLHttpRequest) {
-		
-		// Update table
-		jQuery(obj).parents('tr.domain_tr').find('.domain_td_order').html(response.ordered).find('a.remove_link').bind('click', function(event) { w_remove_domain(jQuery(this)); });
-		
-		// Update cart counter
-		w_update_cart_count(response.count);
-		
-	}, 'json');
-}
-
-function w_remove_domain(obj){
-	var ToOrder = jQuery(obj).parents('tr.domain_tr').attr('id').replace('domain_tr_','').replace('_','.');
-	
-	jQuery.post(jQuery(obj).parents('form').attr('action'), {remove_domain: ToOrder}, function(response, textStatus, XMLHttpRequest) {
-		
-		// Update table
-		jQuery(obj).parents('tr.domain_tr').find('.domain_td_order').html(response.link).find('a.order_link').bind('click', function(event) { w_order_domain(jQuery(this)); });
-		
-		// Update cart counter
-		w_update_cart_count(response.count);
-		
-	}, 'json');
-}
-
-function w_update_cart_count(count){
-	// Update next-div
-	jQuery('.goto_orderform').find('span.cart_count').html(count);
-	if(count > 0){
-		jQuery('.goto_orderform').show();
-	}else{
-		jQuery('.goto_orderform').hide();			
-	}
-}
 
 function postIframeHeight()
 {
@@ -192,6 +235,53 @@ function postIframeHeight()
     );
     window.parent.postMessage("iframe_click_" + frameHeight, "*");
 }
-jQuery(document).ready(function() {
-   
-});
+
+function removeDomainFromCart(domain)
+{
+	jQuery('input[name="action"]').val('remove_domain=' + domain);
+	jQuery('form[name="OrderForm"]').submit();	
+}
+
+function showAmountSpan(SelectName)
+{
+	// Hide all spans for this select
+	jQuery('span.amount_span_' + SelectName).hide();
+	
+	// Show correct span for this select
+	jQuery('#amount_span_' + jQuery('select[name="'+SelectName+'"]').val().replace(/[^0-9a-z-_]/gi, '')).show();
+}
+
+function getCountryStates(countrycode, prefixName, value){
+	// If no country is selected
+	if(countrycode == '')
+	{
+		jQuery('input[name="'+prefixName+'State"]').show();
+		jQuery('select[name="'+prefixName+'StateCode"]').val('').hide();
+		return false;
+	}
+	
+	jQuery.post("?", { step: "get_states", countrycode: countrycode},function(data){
+		if(data.type == 'select')
+		{
+			jQuery('input[name="'+prefixName+'State"]').val('').hide();
+			jQuery('select[name="'+prefixName+'StateCode"]').html(data.options).show();
+			jQuery('select[name="'+prefixName+'StateCode"]').val(value);
+		}	
+		else
+		{
+			jQuery('input[name="'+prefixName+'State"]').val(value).show();
+			jQuery('select[name="'+prefixName+'StateCode"]').html('').val('').hide();
+		}
+	},'json');
+}
+
+function getHandleDetails(handle_id)
+{
+    // Show divs
+    jQuery('#CustomWHOISDivNew').hide();
+    jQuery('#CustomWHOISDivExisting').show();
+
+    jQuery.post("?", { step: "get_handledetail", handle_details: handle_id},function(data){
+        jQuery('#CustomWHOISDivExisting').html(data);
+    },'html');
+}
