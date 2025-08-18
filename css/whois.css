@@ -73,6 +73,58 @@
         padding: 5px 10px 5px 10px;
         width: 42px;
     }
+    
+    /* Groene achtergrond voor bestel knop bij vrije domeinen */
+    .w_result table tr.domain_td_checked_available .order_link {
+        background-color: #1ea21e !important;
+        color: white !important;
+        padding: 8px 12px !important;
+        border-radius: 4px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+    
+    .w_result table tr.domain_td_checked_available .order_link:hover {
+        background-color: #45a049 !important;
+    }
+    
+    /* Rode achtergrond voor verhuis knop bij bezette domeinen */
+    .w_result table tr.domain_td_checked_unavailable .order_link {
+        background-color: #f33d53 !important;
+        color: white !important;
+        padding: 8px 12px !important;
+        border-radius: 4px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+    
+    .w_result table tr.domain_td_checked_unavailable .order_link:hover {
+        background-color: #da190b !important;
+    }
+    
+    /* Icoon voor vrije domeinen desktop */
+    .w_result table tr.domain_td_checked_available .order_link::before {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        background: url('https://hostigo.nl/shopping-bag.png') no-repeat center;
+        background-size: contain;
+        filter: brightness(0) invert(1);
+    }
+    
+    /* Icoon voor bezette domeinen desktop */
+    .w_result table tr.domain_td_checked_unavailable .order_link::before {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        background: url('https://hostigo.nl/return.png') no-repeat center;
+        background-size: contain;
+        filter: brightness(0) invert(1);
+    }
 }
 
 /***************************************************
@@ -232,7 +284,7 @@
         display: block !important;
     }
     
-    /* Maak van elke TR een kaart */
+    /* Maak van elke TR een kaart - WIT */
     .w_result table tr {
         display: flex !important;
         flex-direction: column !important;
@@ -305,8 +357,8 @@
     /* Actie knop (5e td) - absolute positioning */
     .w_result table td:nth-child(5) {
         position: absolute !important;
-        top: 50% !important;  /* Verander van 15px naar 50% */
-        transform: translateY(-50%) !important;  /* Centreer verticaal */
+        top: 50% !important;
+        transform: translateY(-50%) !important;
         right: 15px !important;
         order: 5 !important;
         width: auto !important;
@@ -314,10 +366,60 @@
         margin: 0 !important;
     }
     
+    /* Groene knop voor vrije domeinen mobiel */
+    .w_result table tr.domain_td_checked_available td.domain_td_order .order_link {
+        display: inline-block !important;
+        width: 40px !important;
+        height: 40px !important;
+        text-indent: 100% !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        background-color: #1ea21e !important;
+        background-image: url('https://hostigo.nl/shopping-bag.png') !important;
+        background-repeat: no-repeat !important;
+        background-position: center center !important;
+        background-size: 20px 20px !important;
+        border-radius: 50% !important;
+        font-size: 0px;
+    }
+    
+    /* Rode knop voor bezette domeinen mobiel */
+    .w_result table tr.domain_td_checked_unavailable td.domain_td_order .order_link {
+        display: inline-block !important;
+        width: 40px !important;
+        height: 40px !important;
+        text-indent: 100% !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        background-color: #f33d53 !important;
+        background-image: url('https://hostigo.nl/return.png') !important;
+        background-repeat: no-repeat !important;
+        background-position: center center !important;
+        background-size: 20px 20px !important;
+        border-radius: 50% !important;
+        font-size: 0px;
+    }
+    
+    /* Remove link blijft delete icoon gebruiken */
+    .w_result table td.domain_td_order .remove_link {
+        display: inline-block !important;
+        width: 14px !important;
+        height: 14px !important;
+        margin-top: 5px !important;
+        text-indent: 100% !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        background: url('../images/delete.png') no-repeat 35% 95% !important;
+    }
+    
+    .w_result table td.domain_td_order .remove_link img {
+        display: none;
+    }
+    
     .w_result a.order_link,
     .w_result a.remove_link {
         padding: 6px 12px !important;
-        font-size: 12px !important;
+        font-size: 0px !important;
     }
     
     /* Goto orderform button */
